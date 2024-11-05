@@ -12,4 +12,11 @@ public class UnitTest1
         int y = 2;
         Assert.NotEqual(y, newclass.x);
     }
+
+    public void Test2()
+    {
+        Scheduling class2 = new Scheduling();
+        int x = 5;
+        Assert.Equal(x, class2.y);
+    }
 }
