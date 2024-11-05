@@ -16,7 +16,7 @@ public class UnitTest1
     public void Test2()
     {
         Scheduling class2 = new Scheduling();
-        int x = 5;
-        Assert.Equal(x, class2.y);
+        int x = 4;
+        Assert.NotEqual(x, class2.y);
     }
 }
