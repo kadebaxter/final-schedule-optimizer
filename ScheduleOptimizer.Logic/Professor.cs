@@ -7,22 +7,41 @@ using System.Threading.Tasks;
 
 namespace ScheduleOptimizer.Logic
 {
+    
+    
     public class Professor
     {
-        private List<(Course, Enum)> listofPreference;
-        public Professor(List<(Course,Enum)> courseList)
-        {
-            listofPreference = courseList; 
+        public string Name { get; set; }
+        public string Address { get; set; }
+        public List<Course> CoursePreferences { get; private set; } = new List<Course>();
+        public List<Course> AssignedCourses { get; private set; } = new List<Course>();
 
-        }
-        
-    public static List<(Course,Professor)> CalculatePreferences()
+        public Professor(string name, string address)
         {
-            // Calculate professor preference and return a list of course and the optimum professor
-            return new List<(Course, Professor)> ();
+            Name = name;
+            Address = address;
         }
 
+        public void AddCoursePreference(Course preferredCourse)
+        {
 
+            if (!CoursePreferences.Contains(preferredCourse))
+            {
+                CoursePreferences.Add(preferredCourse);
+                Console.WriteLine($"Course {preferredCourse.CourseName} added to preferences for {Name}.");
+            }
+        }
 
+        public void AssignCourse(Course courseToAssign)
+        {
+            if (CoursePreferences.Contains(courseToAssign) && !AssignedCourses.Contains(courseToAssign))
+            {
+                AssignedCourses.Add(courseToAssign);
+                Console.WriteLine($"Course {courseToAssign.CourseName} assigned to {Name}.");
+            }
+            else
+            {
+                Console.WriteLine($"Course {courseToAssign.CourseName} cannot be assigned to {Name}. Check preferences or existing assignments.");
+            }
+        }
     }
-}
