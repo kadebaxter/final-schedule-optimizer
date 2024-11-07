@@ -5,6 +5,7 @@ public class Room
 {
 
     public int RoomNumber { get; set; }
+  
     public bool IsAvailable { get; set; }
     
     private string roomType;    // roomType should be one of these 3:
@@ -26,6 +27,7 @@ public class Room
         {
             IsAvailable = false;
            // Console.WriteLine($"Room {RoomNumber} has been successfully occupied.");
+
             return true;
         }
         else
