@@ -13,7 +13,7 @@ namespace ScheduleOptimizer.Logic
     {
         public string Name { get; set; }
         //public string Address { get; set; }   // I don't see how address is necesary.
-        public List<Course> CoursePreferences { get; private set; } = new List<Course>();
+        public List<(Course, Enum)> CoursePreferences { get; private set; } = new List<(Course, Enum)>();
         public List<Course> AssignedCourses { get; private set; } = new List<Course>();
 
         public Professor(string name)   // used to take in a string named address and I don't think it's necessary
@@ -22,12 +22,12 @@ namespace ScheduleOptimizer.Logic
           //  Address = address;    // I don't know why we would need an address
         }
 
-        public void AddCoursePreference(Course preferredCourse)
+        public void AddCoursePreference(Course preferredCourse, Enum preferredRating)
         {
 
             if (!CoursePreferences.Contains(preferredCourse))
             {
-                CoursePreferences.Add(preferredCourse);
+                CoursePreferences.Add(preferredCourse, preferredRating);
                // Console.WriteLine($"Course {preferredCourse.CourseName} added to preferences for {Name}.");
             }
             else

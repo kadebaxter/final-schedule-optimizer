@@ -5,12 +5,19 @@ public class Room
 {
 
     public int RoomNumber { get; set; }
-    public bool IsAvailable { get; private set; }
+    public bool IsAvailable { get; set; }
+    
+    private string roomType;    // roomType should be one of these 3:
+                                // "lab", "normal", or "online"
+    
 
-    public Room(int roomNumber)
+    public Room(int roomNumber, string type)
     {
+
         RoomNumber = roomNumber;
         IsAvailable = true;
+        roomType = type;
+
     }
 
     public bool BookRoom()
@@ -18,12 +25,12 @@ public class Room
         if (IsAvailable)
         {
             IsAvailable = false;
-            Console.WriteLine($"Room {RoomNumber} has been successfully occupied.");
+           // Console.WriteLine($"Room {RoomNumber} has been successfully occupied.");
             return true;
         }
         else
         {
-            Console.WriteLine($"Room {RoomNumber} is currently unavailable.");
+           // Console.WriteLine($"Room {RoomNumber} is currently unavailable.");
             return false;
         }
     }
@@ -33,11 +40,11 @@ public class Room
         if (!IsAvailable)
         {
             IsAvailable = true;
-            Console.WriteLine($"Room {RoomNumber} has been released and is now available.");
+           // Console.WriteLine($"Room {RoomNumber} has been released and is now available.");
         }
         else
         {
-            Console.WriteLine($"Room {RoomNumber} is already available.");
+           // Console.WriteLine($"Room {RoomNumber} is already available.");
         }
     }
 }
