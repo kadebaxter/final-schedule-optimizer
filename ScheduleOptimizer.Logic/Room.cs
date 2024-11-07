@@ -1,5 +1,7 @@
 ﻿namespace ScheduleOptimizer.Logic;
 using System;
+using ScheduleOptimizer.Persistence;
+
 
 public class Room
 {
@@ -8,11 +10,11 @@ public class Room
   
     public bool IsAvailable { get; set; }
     
-    private string roomType;    // roomType should be one of these 3:
+    private RoomType roomType;    // roomType should be one of these 3:
                                 // "lab", "normal", or "online"
     
 
-    public Room(int roomNumber, string type)
+    public Room(int roomNumber, RoomType type)
     {
 
         RoomNumber = roomNumber;
