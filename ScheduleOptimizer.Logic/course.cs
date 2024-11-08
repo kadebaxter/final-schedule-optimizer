@@ -11,6 +11,7 @@ namespace ScheduleOptimizer.Logic
         public int CourseId { get; set; }
         public string CourseName { get; set; }
         public string Description { get; set; }
+        public bool NeedsLab {  get; set; }
 
         public Course(int courseId, string courseName)
         {
