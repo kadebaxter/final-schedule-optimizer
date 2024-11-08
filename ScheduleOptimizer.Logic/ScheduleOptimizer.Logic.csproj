@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ScheduleOptimizer.Persistence\ScheduleOptimizer.Persistence.csproj" />
+  </ItemGroup>
+
 </Project>

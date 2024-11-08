@@ -1,5 +1,7 @@
 using ScheduleOptimizer.Logic;
+using ScheduleOptimizer.Persistence;
 using System.Security.Cryptography.X509Certificates;
+using System.Xml.Serialization;
 
 namespace ScheduleOptimizer.Tests;
 
@@ -8,15 +10,10 @@ public class UnitTest1
     [Fact]
     public void ProfessorPreference()
     {
-        Class1 newclass = new Class1();
-        int y = 2;
-        Assert.NotEqual(y, newclass.x);
-    }
-
-    public void Test2()
-    {
-        Scheduling class2 = new Scheduling();
-        int x = 4;
-        Assert.NotEqual(x, class2.y);
+        Professor testProf = new Professor("TestProf");
+        Course testCourse = new Course(1410, "Intro to Programming");
+        Persistence1 testPersistence = new Persistence1();
+        
+        testProf.AddCoursePreference(testCourse, testPersistence.Preference.Favored);
     }
 }
