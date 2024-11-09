@@ -12,12 +12,21 @@ public class UnitTest1
     //Then clear after the test is over
     //InitializeData.ClearData()
     [Fact]
-    public void ProfessorPreference()
+    public void TestProfessorPreference()
     {
-        Professor testProf = new Professor("TestProf");
-        Course testCourse = new Course(1410, "Intro to Programming");
-        Persistence1 testPersistence = new Persistence1();
+        InitializeData.BeginData();
+        // roomNums list
+        // CourseNamesID list
+        // ProfessorNames
+
+
+        // tests that the preference we just added is the same as the preference we just added. A fairly redundant test for sure :)
+        Professor testProf = InitializeData.ListOfProfessors[0];
+        testProf.AddCoursePreference(InitializeData.ListOfCourses[0], 5);
+        CourseAndPreference rating = testProf.GetCourseAndPreference(InitializeData.ListOfCourses[0]);
+        Assert.Equal(5, rating.preference);
         
-        testProf.AddCoursePreference(testCourse, testPersistence.Preference.Favored);
+
+        InitializeData.ClearData(); // Clear the data for the next test.
     }
 }

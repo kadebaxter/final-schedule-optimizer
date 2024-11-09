@@ -59,7 +59,7 @@ public static class InitializeData
             {
                 int pref = new Random().Next() % 4;
 
-                tempProf.AddCoursePreference(ListOfCourses[i], (Preference)pref);
+                tempProf.AddCoursePreference(ListOfCourses[i], pref);
             }
         }
     }
