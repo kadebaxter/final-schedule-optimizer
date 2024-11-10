@@ -19,3 +19,12 @@ public enum RoomType
     Normal, 
     Online
 }
+
+public enum WeekDay
+{
+    Monday, 
+    Tuesday, 
+    Wednesday,
+    Thursday,
+    Friday,
+}
