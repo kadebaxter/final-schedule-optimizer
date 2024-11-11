@@ -7,20 +7,26 @@ using ScheduleOptimizer.Persistence;
 
 namespace ScheduleOptimizer.Logic;
 
-internal class InitializeData
+public static class InitializeData
 {
-    public List<Professor> ListOfProfessors = [];
-    public List<Course> ListOfCourses = [];
-    public List<Room> ListOfRooms = [];
+    public static List<Professor> ListOfProfessors = [];
+    public static List<Course> ListOfCourses = [];
+    public static List<Room> ListOfRooms = [];
 
-    public void BeginData()
+    public static void BeginData()
     {
         AddProfessors();
         AddCourses();
         AddRooms();
     }
 
-    private void AddProfessors()
+    public static void ClearData()
+    {
+        ListOfProfessors.Clear();
+        ListOfCourses.Clear();
+        ListOfRooms.Clear();
+    }
+    private static void AddProfessors()
     {
         foreach(string name in PersistData.BuildProfessorList())
         {
@@ -28,7 +34,7 @@ internal class InitializeData
         }
     }
 
-    private void AddCourses()
+    private static void AddCourses()
     {
         foreach((string, int) course in PersistData.BuildCourseList())
         {
@@ -36,7 +42,7 @@ internal class InitializeData
         }
     }
 
-    private void AddRooms()
+    private static void AddRooms()
     {
         foreach((int, RoomType) rmNum in PersistData.BuildRoomList())
         {
@@ -44,7 +50,7 @@ internal class InitializeData
         }
     }
 
-    public void BuildProfessorPreference()
+    public static void BuildProfessorPreference()
     {
         for (int i = 0; i < ListOfProfessors.Count; i++)
         {
@@ -53,7 +59,7 @@ internal class InitializeData
             {
                 int pref = new Random().Next() % 4;
 
-                tempProf.AddCoursePreference(ListOfCourses[i], (Preference)pref);
+                tempProf.AddCoursePreference(ListOfCourses[i], pref);
             }
         }
     }
