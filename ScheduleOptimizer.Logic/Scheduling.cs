@@ -12,7 +12,7 @@ namespace ScheduleOptimizer.Logic
         private Semester _semester;
         private int _numOfClasses;
         private List<Course> _listOfCourses;
-        private List<AvailableTimes> _availableTimes;
+        private List<AvailableTimes> _availableTimes = new();
         private List<WeekDay> _weekDays = [WeekDay.Monday, WeekDay.Tuesday, WeekDay.Wednesday, WeekDay.Thursday, WeekDay.Friday];
 
         public Scheduling(Semester semester, int numOfClasses, List<Course> listOfCourses)
@@ -32,14 +32,34 @@ namespace ScheduleOptimizer.Logic
             {
                 foreach (WeekDay day in _weekDays)
                 {
-                    _availableTimes.Add(new(day, DateTime.Parse(time.ToString("0000").Insert(2, ":").Insert(5, ":00"))));
+                    if (time.ToString().Count() == 3)
+                    {
+                        _availableTimes.Add(new(new(new(2024, 12, (int)day), TimeOnly.Parse(time.ToString().Insert(1, ":").Insert(4, ":00")))));
+                    }
+                    else
+                    {
+                        _availableTimes.Add(new(new(new(2024, 12, (int)day), TimeOnly.Parse(time.ToString().Insert(2, ":").Insert(5, ":00")))));
+
+                    }
                 }
             }
         }
 
-        public Dictionary<DateTime, ScheduledCourse> GenerateSchedule(List<CourseRoom> courseRooms, List<ProfessorCourse> professorCourses)
+        public Dictionary<(DateTime, int), ScheduledCourse> GenerateSchedule(List<CourseRoom> courseRooms, List<ProfessorCourse> professorCourses)
         {
-            throw new NotImplementedException();
+            Dictionary<(DateTime, int), ScheduledCourse> scheduledCourseList = new();
+            SetTimes([730, 830, 930, 1030, 1130, 1230, 130, 230, 330, 430]);
+            foreach (var courseRoom in courseRooms)
+            {
+                foreach (var courseProfessor in professorCourses)
+                {
+                    foreach (var time in _availableTimes)
+                    {
+                        scheduledCourseList.Add((time.date, courseRoom.Room.RoomNumber), new(courseRoom.Course, courseProfessor.Professor, courseRoom.Room, time.date));
+                    }
+                }
+            }
+            return scheduledCourseList;
         }
     }
 
@@ -47,7 +67,7 @@ namespace ScheduleOptimizer.Logic
     {
         public Course Course { get; set; }
         public Room Room { get; set; }
-        public CourseRoom(Course course,  Room room)
+        public CourseRoom(Course course, Room room)
         {
             Course = course;
             Room = room;

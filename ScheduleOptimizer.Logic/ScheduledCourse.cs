@@ -9,9 +9,9 @@ namespace ScheduleOptimizer.Logic
     public class ScheduledCourse
     {
         readonly Course course;
-        readonly Professor professor;
-        readonly Room room;
-        readonly DateTime date;
+        public readonly Professor professor;
+        public readonly Room room;
+        public readonly DateTime date;
 
         public ScheduledCourse(Course course, Professor professor, Room room, DateTime date)
         {
