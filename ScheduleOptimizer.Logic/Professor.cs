@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -7,46 +8,73 @@ using System.Threading.Tasks;
 
 namespace ScheduleOptimizer.Logic
 {
-
+    
 
     public class Professor
     {
         public string Name { get; set; }
-        //public string Address { get; set; }   // I don't see how address is necesary.
-        public List<(Course, Enum)> CoursePreferences { get; private set; } = [];
+        public List<CourseAndPreference> CoursePreferences { get; private set; } = [];
         public List<Course> AssignedCourses { get; private set; } = [];
 
-        public Professor(string name)   // used to take in a string named address and I don't think it's necessary
+        public Professor(string name)   
         {
             Name = name;
-            //  Address = address;    // I don't know why we would need an address
+        }
+        public void AddCoursePreference(Course preferredCourse, int preferredRating)
+        {
+            CourseAndPreference addingCourse = new CourseAndPreference(preferredCourse, preferredRating);   
+            CoursePreferences.Add(addingCourse);
+        }
+        public void AddAssignedCourse(Course freshCourse) 
+        {
+            AssignedCourses.Add(freshCourse);
         }
 
-        public void AddCoursePreference(Course preferredCourse, Enum preferredRating)
+        // Takes in a course and returns that course with the Professor's preference of it.
+        public CourseAndPreference GetCourseAndPreference(Course QuerryCourse)
         {
-
-            if (!CoursePreferences.Contains((preferredCourse, preferredRating)))
+            CourseAndPreference Answer = null;
+            for (int i = 0; i < CoursePreferences.Count; i++) 
             {
-                CoursePreferences.Add((preferredCourse, preferredRating));
-                // Console.WriteLine($"Course {preferredCourse.CourseName} added to preferences for {Name}.");
+                if (CoursePreferences[i].course == QuerryCourse)
+                { 
+                    Answer = CoursePreferences[i];
+                }  
             }
-            else
+            if (Answer == null)
             {
                 throw new Exception();
             }
+            return Answer;
         }
 
-        //public void AssignCourse(Course courseToAssign)
-        //{
-        //    if (CoursePreferences.Contains(courseToAssign) && !AssignedCourses.Contains(courseToAssign))
-        //    {
-        //        AssignedCourses.Add(courseToAssign);
-        //        Console.WriteLine($"Course {courseToAssign.CourseName} assigned to {Name}.");
-        //    }
-        //    else
-        //    {
-        //        Console.WriteLine($"Course {courseToAssign.CourseName} cannot be assigned to {Name}. Check preferences or existing assignments.");
-        //    }
-        //}
+        // assignes professors to courses based on which courses they like to teach. 
+        // IMPORTANT:   this method Also fills the list in each professor class of which courses they are assigned.
+        public static List<CourseProfessor> CalculateCourseProfessor()
+        {
+            List<CourseProfessor> assignedList = new List<CourseProfessor>();
+            for (int i = 0; i < InitializeData.ListOfCourses.Count; i++) 
+            {
+                Course disCourse = InitializeData.ListOfCourses[i];
+                Professor assignedProf = InitializeData.ListOfProfessors[0];
+                for (int j = 0; j < InitializeData.ListOfProfessors.Count; j++) 
+                {
+                    if (InitializeData.ListOfProfessors[j].GetCourseAndPreference(disCourse).preference > assignedProf.GetCourseAndPreference(disCourse).preference)
+                    {
+                        assignedProf = InitializeData.ListOfProfessors[j];
+                    }
+                }
+                CourseProfessor AssignedCourseProf = new CourseProfessor(disCourse,assignedProf);
+                assignedList.Add(AssignedCourseProf);
+
+            }
+            for (int i = 0; i<assignedList.Count; i++)
+            {
+                assignedList[i].professor.AddAssignedCourse(assignedList[i].course);
+            }
+            return assignedList;
+        }
+
+        
     }
 }
