@@ -22,9 +22,9 @@ public enum RoomType
 
 public enum WeekDay
 {
-    Monday, 
-    Tuesday, 
-    Wednesday,
-    Thursday,
-    Friday,
+    Monday = 2, 
+    Tuesday = 3, 
+    Wednesday = 4,
+    Thursday = 5,
+    Friday = 6,
 }

@@ -9,13 +9,12 @@ namespace ScheduleOptimizer.Logic
 {
     internal class AvailableTimes
     {
-        WeekDay weekDay;
-        DateTime time;
+        public readonly DateTime date;
 
-        public AvailableTimes(WeekDay day, DateTime classTime)
+        public AvailableTimes(DateTime classTime)
         {
-            weekDay = day;
-            time = classTime;
+            
+            date = classTime;
         }
     }
 }
