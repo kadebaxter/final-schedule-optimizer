@@ -28,6 +28,12 @@ namespace ScheduleOptimizer.Tests
             CourseAndPreference rating = testProf.GetCourseAndPreference(InitializeData.ListOfCourses[0]);
             Assert.Equal(5, rating.preference);
 
+            //DID i INITIALIZE PREFERENCE YET?
+
+           List<CourseProfessor> assignedList = Professor.CalculateCourseProfessor();   // THIS LINE KILLS EVERYTHING
+           // Assert.Equal(testProf, assignedList[0].professor);
+           
+            // IMPORTANT: // make sure that there is a professor attatched to a course!
 
             InitializeData.ClearData(); // Clear the data for the next test.
         }

@@ -1,4 +1,5 @@
 ﻿
+using ScheduleOptimizer.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,11 +20,36 @@ namespace ScheduleOptimizer.Logic
         public Professor(string name)   
         {
             Name = name;
+            // I initialize a list of all courses with a default neutral preference of int 3 each time you create a professor
+            for (int i = 0; i < InitializeData.ListOfCourses.Count; i++) 
+            {
+                CourseAndPreference tempItem = new CourseAndPreference(InitializeData.ListOfCourses[i]);
+                CoursePreferences.Add(tempItem);
+            }
         }
         public void AddCoursePreference(Course preferredCourse, int preferredRating)
         {
-            CourseAndPreference addingCourse = new CourseAndPreference(preferredCourse, preferredRating);   
-            CoursePreferences.Add(addingCourse);
+            // If someone adds a course that isn't in our list of data, it updates both lists
+            if (!CoursePreferences.Contains(GetCourseAndPreference(preferredCourse)))
+            {
+                CourseAndPreference tempAdd = new CourseAndPreference(preferredCourse, preferredRating);
+                CoursePreferences.Add(tempAdd);
+                InitializeData.ListOfCourses.Add(tempAdd.course);
+            }
+            
+                  // I need to initialize CourseAndPreference with Every Course
+                    // then search that list and update the preference;
+            
+            else
+            {
+                for (int i = 0; i < CoursePreferences.Count; i++) 
+                {
+                    if(preferredCourse == CoursePreferences[i].course)
+                    {
+                        CoursePreferences[i].preference = preferredRating;
+                    }
+                }
+            }
         }
         public void AddAssignedCourse(Course freshCourse) 
         {
@@ -41,10 +67,10 @@ namespace ScheduleOptimizer.Logic
                     Answer = CoursePreferences[i];
                 }  
             }
-            if (Answer == null)
-            {
-                throw new Exception();
-            }
+            //if (Answer == null)
+            //{
+            //    throw new Exception();
+            //}
             return Answer;
         }
 

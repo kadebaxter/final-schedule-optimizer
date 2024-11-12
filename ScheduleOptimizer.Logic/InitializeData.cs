@@ -12,12 +12,14 @@ public static class InitializeData
     public static List<Professor> ListOfProfessors = [];
     public static List<Course> ListOfCourses = [];
     public static List<Room> ListOfRooms = [];
+    // should I build a list for CourseAndPreference and CourseProfessor?
 
     public static void BeginData()
     {
         AddProfessors();
         AddCourses();
         AddRooms();
+        BuildProfessorPreference();
     }
 
     public static void ClearData()
