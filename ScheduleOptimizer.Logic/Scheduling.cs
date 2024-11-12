@@ -26,23 +26,25 @@ namespace ScheduleOptimizer.Logic
         public int NumOfClasses { get => _numOfClasses; set => _numOfClasses = value; }
         public List<Course> ListOfCourses1 { get => _listOfCourses; set => _listOfCourses = value; }
 
-        private void SetTimes(List<int> times)
+        private List<AvailableTimes> SetTimes(List<int> times)
         {
+            List<AvailableTimes> timesToReturn = new();
             foreach (int time in times)
             {
                 foreach (WeekDay day in _weekDays)
                 {
                     if (time.ToString().Count() == 3)
                     {
-                        _availableTimes.Add(new(new(new(2024, 12, (int)day), TimeOnly.Parse(time.ToString().Insert(1, ":").Insert(4, ":00")))));
+                        timesToReturn.Add(new(new(new(2024, 12, (int)day), TimeOnly.Parse(time.ToString().Insert(1, ":").Insert(4, ":00")))));
                     }
                     else
                     {
-                        _availableTimes.Add(new(new(new(2024, 12, (int)day), TimeOnly.Parse(time.ToString().Insert(2, ":").Insert(5, ":00")))));
+                        timesToReturn.Add(new(new(new(2024, 12, (int)day), TimeOnly.Parse(time.ToString().Insert(2, ":").Insert(5, ":00")))));
 
                     }
                 }
             }
+            return timesToReturn;
         }
 
         private static Professor ReturnProfessorGivenName(string name, List<CourseProfessor> courseProfessors)
@@ -61,19 +63,16 @@ namespace ScheduleOptimizer.Logic
         public Dictionary<(DateTime, Course), ScheduledCourse> GenerateSchedule(List<CourseRoom> courseRooms, List<CourseProfessor> professorCourses)
         {
             Dictionary<(DateTime, Course), ScheduledCourse> scheduledCourseList = new();
-            SetTimes([730, 830, 930, 1030, 1130, 1230, 130, 230, 330, 430]);
+            _availableTimes = SetTimes([730, 830, 930, 1030, 1130, 1230, 130, 230, 330, 430]);
             Random random = new Random();
-            int randomNumber = random.Next(0, professorCourses.Count() - 1);
-            if (courseRooms.Count() < professorCourses.Count())
+            for (int i = 0; i < courseRooms.Count(); i++)
             {
-                randomNumber = random.Next(0, courseRooms.Count() - 1);
-            }
-            foreach (var time in _availableTimes)
-            {
-                scheduledCourseList.Add((time.date, courseRooms[randomNumber].Course),
-                    new(courseRooms[randomNumber].Course,
-                    ReturnProfessorGivenName(courseRooms[randomNumber].Course.CourseName, professorCourses),
-                    courseRooms[randomNumber].Rooms[random.Next(0, courseRooms[randomNumber].Rooms.Count() - 1)], time.date));
+                int randomNumber = random.Next(0, _availableTimes.Count() - 1);
+
+                scheduledCourseList.Add((_availableTimes[randomNumber].date, courseRooms[i].Course),
+                    new(courseRooms[i].Course,
+                    ReturnProfessorGivenName(courseRooms[i].Course.CourseName, professorCourses),
+                    courseRooms[i].Rooms[random.Next(0, courseRooms[i].Rooms.Count() - 1)], _availableTimes[randomNumber].date));
             }
             return scheduledCourseList;
         }
