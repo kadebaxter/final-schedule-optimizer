@@ -45,19 +45,35 @@ namespace ScheduleOptimizer.Logic
             }
         }
 
-        public Dictionary<(DateTime, int), ScheduledCourse> GenerateSchedule(List<CourseRoom> courseRooms, List<ProfessorCourse> professorCourses)
+        private static Professor ReturnProfessorGivenName(string name, List<CourseProfessor> courseProfessors)
         {
-            Dictionary<(DateTime, int), ScheduledCourse> scheduledCourseList = new();
-            SetTimes([730, 830, 930, 1030, 1130, 1230, 130, 230, 330, 430]);
-            foreach (var courseRoom in courseRooms)
+            foreach (var course in courseProfessors)
             {
-                foreach (var courseProfessor in professorCourses)
+                if (course.course.CourseName == name)
                 {
-                    foreach (var time in _availableTimes)
-                    {
-                        scheduledCourseList.Add((time.date, courseRoom.Room.RoomNumber), new(courseRoom.Course, courseProfessor.Professor, courseRoom.Room, time.date));
-                    }
+                    return course.professor;
                 }
+            }
+
+            return new($"{name} Created");
+        }
+
+        public Dictionary<(DateTime, Course), ScheduledCourse> GenerateSchedule(List<CourseRoom> courseRooms, List<CourseProfessor> professorCourses)
+        {
+            Dictionary<(DateTime, Course), ScheduledCourse> scheduledCourseList = new();
+            SetTimes([730, 830, 930, 1030, 1130, 1230, 130, 230, 330, 430]);
+            Random random = new Random();
+            int randomNumber = random.Next(0, professorCourses.Count() - 1);
+            if (courseRooms.Count() < professorCourses.Count())
+            {
+                randomNumber = random.Next(0, courseRooms.Count() - 1);
+            }
+            foreach (var time in _availableTimes)
+            {
+                scheduledCourseList.Add((time.date, courseRooms[randomNumber].Course),
+                    new(courseRooms[randomNumber].Course,
+                    ReturnProfessorGivenName(courseRooms[randomNumber].Course.CourseName, professorCourses),
+                    courseRooms[randomNumber].Rooms[random.Next(0, courseRooms[randomNumber].Rooms.Count() - 1)], time.date));
             }
             return scheduledCourseList;
         }
@@ -66,22 +82,11 @@ namespace ScheduleOptimizer.Logic
     public class CourseRoom
     {
         public Course Course { get; set; }
-        public Room Room { get; set; }
-        public CourseRoom(Course course, Room room)
+        public List<Room> Rooms { get; set; }
+        public CourseRoom(Course course, List<Room> rooms)
         {
             Course = course;
-            Room = room;
-        }
-    }
-
-    public class ProfessorCourse
-    {
-        public Course Course { get; set; }
-        public Professor Professor { get; set; }
-        public ProfessorCourse(Course course, Professor professor)
-        {
-            Course = course;
-            Professor = professor;
+            Rooms = rooms;
         }
     }
 }
