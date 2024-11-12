@@ -8,7 +8,7 @@ namespace ScheduleOptimizer.Logic
 {
     public class ScheduledCourse
     {
-        readonly Course course;
+        public readonly Course course;
         public readonly Professor professor;
         public readonly Room room;
         public readonly DateTime date;

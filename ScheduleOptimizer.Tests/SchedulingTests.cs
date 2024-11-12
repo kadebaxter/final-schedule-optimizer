@@ -8,71 +8,82 @@ public class SchedulingTests
     public void DetectCourseCollision()
     {
         //Arrange
-        Course course1 = new(123, "Math");
-        Course course2 = new(234, "Science");
-        Room room1 = new(1, Persistence.RoomType.Normal);
-        Room room2 = new(2, Persistence.RoomType.Normal);
-        Professor professor1 = new("Bob");
-        Professor professor2 = new("Bill");
-        CourseRoom cr1 = new(course1, [room1, room2]);
-        CourseRoom cr2 = new(course2, [room1, room2]);
-        CourseProfessor pc1 = new(course1, professor1);
-        CourseProfessor pc2 = new(course2, professor2);
+        InitializeData.BeginData();
+        List<Course> courseList = InitializeData.ListOfCourses;
+        CourseRoom cr1 = new(courseList[0], InitializeData.ListOfRooms);
+        CourseRoom cr2 = new(courseList[1], InitializeData.ListOfRooms);
         List<CourseRoom> courses = [cr1, cr2];
-        List<Course> courseList = [course1, course2];
+        List<Professor> professorList = InitializeData.ListOfProfessors;
+        CourseProfessor pc1 = new(courseList[0], professorList[0]);
+        CourseProfessor pc2 = new(courseList[1], professorList[1]);
         List<CourseProfessor> professors = [pc1, pc2];
-        List<DateTime> dates = [DateTime.Parse("5:45:00 pm"), DateTime.Parse("5:46:00 pm")];
-        Scheduling schedule = new(Persistence.Semester.Spring, 2, courseList);
-        
 
+        //Act
+        Scheduling schedule = new(Persistence.Semester.Spring, 2, courseList);
         Dictionary<(DateTime, Course), ScheduledCourse> scheduleList = schedule.GenerateSchedule(courses, professors);
-        Assert.NotEqual(scheduleList[(dates[0], course1)].professor, scheduleList[(dates[1], course2)].professor);
+        var keys = scheduleList.Keys.ToList();
+
+        //Assert
+        Assert.NotEqual(scheduleList[keys[0]].course.CourseName, scheduleList[keys[1]].course.CourseName);
+        InitializeData.ClearData();
     }
 
     [Fact]
     public void DetectProfessorCollision()
     {
-        Course course1 = new(123, "Math");
-        Course course2 = new(234, "Science");
-        Room room1 = new(1, Persistence.RoomType.Normal);
-        Room room2 = new(2, Persistence.RoomType.Normal);
-        Professor professor1 = new("Bob");
-        Professor professor2 = new("Bill");
-        CourseRoom cr1 = new(course1, [room1, room2]);
-        CourseRoom cr2 = new(course2, [room1, room2]);
-        CourseProfessor pc1 = new(course1, professor1);
-        CourseProfessor pc2 = new(course2, professor2);
+        //Arrange
+        InitializeData.BeginData();
+        List<Course> courseList = InitializeData.ListOfCourses;
+        CourseRoom cr1 = new(courseList[0], InitializeData.ListOfRooms);
+        CourseRoom cr2 = new(courseList[1], InitializeData.ListOfRooms);
         List<CourseRoom> courses = [cr1, cr2];
-        List<Course> courseList = [course1, course2];
+        List<Professor> professorList = InitializeData.ListOfProfessors;
+        CourseProfessor pc1 = new(courseList[0], professorList[0]);
+        CourseProfessor pc2 = new(courseList[1], professorList[1]);
         List<CourseProfessor> professors = [pc1, pc2];
-        List<DateTime> dates = [DateTime.Parse("5:45:00 pm"), DateTime.Parse("5:46:00 pm")];
+
+        //Act
         Scheduling schedule = new(Persistence.Semester.Spring, 2, courseList);
-
         Dictionary<(DateTime, Course), ScheduledCourse> scheduleList = schedule.GenerateSchedule(courses, professors);
+        var keys = scheduleList.Keys.ToList();
 
-        Assert.NotEqual(scheduleList[(dates[0], course1)].professor, scheduleList[(dates[1], course2)].professor);
+        //Assert
+        Assert.NotEqual(scheduleList[keys[0]].professor.Name, scheduleList[keys[1]].professor.Name);
+        InitializeData.ClearData();
     }
     [Fact]
     public void DetectRoomCollision()
     {
-        Course course1 = new(123, "Math");
-        Course course2 = new(234, "Science");
-        Room room1 = new(1, Persistence.RoomType.Normal);
-        Room room2 = new(2, Persistence.RoomType.Normal);
-        Professor professor1 = new("Bob");
-        Professor professor2 = new("Bill");
-        CourseRoom cr1 = new(course1, [room1, room2]);
-        CourseRoom cr2 = new(course2, [room1, room2]);
-        CourseProfessor pc1 = new(course1, professor1);
-        CourseProfessor pc2 = new(course2, professor2);
+        //Arrange
+        InitializeData.BeginData();
+        List<Course> courseList = InitializeData.ListOfCourses;
+        CourseRoom cr1 = new(courseList[0], InitializeData.ListOfRooms);
+        CourseRoom cr2 = new(courseList[1], InitializeData.ListOfRooms);
         List<CourseRoom> courses = [cr1, cr2];
-        List<Course> courseList = [course1, course2];
+        List<Professor> professorList = InitializeData.ListOfProfessors;
+        CourseProfessor pc1 = new(courseList[0], professorList[0]);
+        CourseProfessor pc2 = new(courseList[1], professorList[1]);
         List<CourseProfessor> professors = [pc1, pc2];
-        List<DateTime> dates = [DateTime.Parse("5:45:00 pm"), DateTime.Parse("5:46:00 pm")];
+
+        //Act
         Scheduling schedule = new(Persistence.Semester.Spring, 2, courseList);
-
         Dictionary<(DateTime, Course), ScheduledCourse> scheduleList = schedule.GenerateSchedule(courses, professors);
+        var keys = scheduleList.Keys.ToList();
 
-        Assert.NotEqual(scheduleList[(dates[0], course1)].professor, scheduleList[(dates[1], course2)].professor);
+        //Assert
+        Assert.NotEqual(scheduleList[keys[0]].room.RoomNumber, scheduleList[keys[1]].room.RoomNumber);
+        InitializeData.ClearData();
+    }
+
+    [Fact]
+    public void CheckData()
+    {
+        InitializeData.BeginData();
+
+        Assert.True(InitializeData.ListOfCourses.Count() > 0);
+
+        InitializeData.ClearData();
+
+        Assert.True(InitializeData.ListOfCourses.Count() == 0);
     }
 }
