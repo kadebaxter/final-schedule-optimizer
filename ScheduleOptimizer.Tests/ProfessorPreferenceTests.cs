@@ -24,14 +24,19 @@ namespace ScheduleOptimizer.Tests
 
             // tests that the preference we just added is the same as the preference we just added. A fairly redundant test for sure :)
             Professor testProf = InitializeData.ListOfProfessors[0];
+            Course testCourse = new Course(12345, "testCourse");
+            InitializeData.ListOfCourses.Add(testCourse);
             testProf.AddCoursePreference(InitializeData.ListOfCourses[0], 5);
             CourseAndPreference rating = testProf.GetCourseAndPreference(InitializeData.ListOfCourses[0]);
             Assert.Equal(5, rating.preference);
+            Assert.True(InitializeData.ListOfProfessors.Contains(testProf));
+            Assert.True(InitializeData.ListOfCourses.Contains(testCourse));
+
 
             //DID i INITIALIZE PREFERENCE YET?
 
-           List<CourseProfessor> assignedList = Professor.CalculateCourseProfessor();   // THIS LINE KILLS EVERYTHING
-           // Assert.Equal(testProf, assignedList[0].professor);
+            List<CourseProfessor> assignedList = Professor.CalculateCourseProfessor();   // THIS LINE KILLS EVERYTHING
+            Assert.Equal(testProf, assignedList[0].professor);
            
             // IMPORTANT: // make sure that there is a professor attatched to a course!
 
