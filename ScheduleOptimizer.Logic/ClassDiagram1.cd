@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="ScheduleOptimizer.Logic.Course" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACEAAAAAAAgAAAAAAAAAAAAAAAAAAIAAAAAAAAAACA=</HashCode>
+      <FileName>course.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ScheduleOptimizer.Logic.CourseAndPreference" Collapsed="true">
+    <Position X="4" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAgAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CourseAndPreference.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="course" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="ScheduleOptimizer.Logic.CourseProfessor" Collapsed="true">
+    <Position X="0.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CourseProfessor.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="course" />
+      <Property Name="professor" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="CourseRoom" Collapsed="true">
+    <Position X="0.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CourseRooms.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Course" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="ScheduleOptimizer.Logic.InitializeData" Collapsed="true">
+    <Position X="7" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAQAQBIAAICAAAAAAAAAAAAAAIAAAAAAAQA=</HashCode>
+      <FileName>InitializeData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ScheduleOptimizer.Logic.Professor" Collapsed="true">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIIAAIAAAAACAAAAAAAAAQAAAAgAAAAAAAABAAAAAQ=</HashCode>
+      <FileName>Professor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ScheduleOptimizer.Logic.Room" Collapsed="true">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAAAAAAAAAAIAAABAAAAAAAAAAAAIAAAgA=</HashCode>
+      <FileName>Room.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ScheduleOptimizer.Logic.ScheduledCourse" Collapsed="true">
+    <Position X="5.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAQAAAAgAAAAAAAAQAAAAA=</HashCode>
+      <FileName>ScheduledCourse.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="course" />
+      <Field Name="professor" />
+      <Field Name="room" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="ScheduleOptimizer.Logic.Scheduling" Collapsed="true">
+    <Position X="5.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAADAAAAAAAAAAAMAAACAAAAgAAAgBBCAgAAAAAAAA=</HashCode>
+      <FileName>Scheduling.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ScheduleOptimizer.Persistence.PersistData" Collapsed="true">
+    <Position X="7" Y="3.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="ScheduleOptimizer.Logic.AvailableTimes" Collapsed="true">
+    <Position X="2.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>AvailableTimes.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
