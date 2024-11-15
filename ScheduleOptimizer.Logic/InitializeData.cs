@@ -59,8 +59,8 @@ public static class InitializeData
             Professor tempProf = ListOfProfessors[i];
             for (int j = 0; j < ListOfCourses.Count; j++)
             {
-                //int pref = new Random().Next() % 4;
-                int pref = 3;// this used to be random, but I couldn't be sure it was correct. 
+                int pref = new Random().Next() % 4;
+                //int pref = 3;// this used to be random, but I couldn't be sure it was correct. 
 
                 tempProf.AddCoursePreference(ListOfCourses[i], pref);
             }
