@@ -1,10 +1,12 @@
-﻿@page "/weather"
+﻿@page "/professor"
+@using ScheduleOptimizer.Logic;
 
-<PageTitle>Weather</PageTitle>
 
-<h1>Weather</h1>
+<PageTitle>Professor</PageTitle>
 
-<p>This component demonstrates showing data.</p>
+<h1>Professor</h1>
+
+<p>This is our Professor Class. It will eventually take in professor's preferences on classes and a few other fun things as well!'</p>
 
 @if (forecasts == null)
 {
@@ -15,22 +17,25 @@ else
     <table class="table">
         <thead>
             <tr>
-                <th>Date</th>
+                @* <th>Date</th>
                 <th>Temp. (C)</th>
                 <th>Temp. (F)</th>
-                <th>Summary</th>
+                <th>Summary</th> *@
             </tr>
-        </thead>
+       <!----> </thead>
         <tbody>
-            @foreach (var forecast in forecasts)
-            {
-                <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.TemperatureF</td>
-                    <td>@forecast.Summary</td>
-                </tr>
-            }
+             @*  @foreach (var forecast in forecasts)
+              {
+                  <tr>
+                      <td>@forecast.Date.ToShortDateString()</td>
+                      <td>@forecast.TemperatureC</td>
+                      <td>@forecast.TemperatureF</td>
+                      <td>@forecast.Summary</td>
+                  </tr>
+              } *@
+            <button type="button" onclick="alert('Button clicked!')">
+                Click Me
+            </button>
         </tbody>
     </table>
 }
