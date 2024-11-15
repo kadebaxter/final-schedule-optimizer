@@ -1,4 +1,5 @@
 ﻿
+using ScheduleOptimizer.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,15 +16,44 @@ namespace ScheduleOptimizer.Logic
         public string Name { get; set; }
         public List<CourseAndPreference> CoursePreferences { get; private set; } = [];
         public List<Course> AssignedCourses { get; private set; } = [];
+        private List<Course> TotalCourses { get; set; } = [];
 
         public Professor(string name)   
         {
             Name = name;
+            // I initialize a list of all courses with a default neutral preference of int 3 each time you create a professor
+            for (int i = 0; i < InitializeData.ListOfCourses.Count; i++) 
+            {
+                CourseAndPreference tempItem = new CourseAndPreference(InitializeData.ListOfCourses[i]);
+                CoursePreferences.Add(tempItem);
+                Course tempCourse = InitializeData.ListOfCourses[i];
+                TotalCourses.Add(tempCourse);
+            }
         }
         public void AddCoursePreference(Course preferredCourse, int preferredRating)
         {
-            CourseAndPreference addingCourse = new CourseAndPreference(preferredCourse, preferredRating);   
-            CoursePreferences.Add(addingCourse);
+            // If someone adds a course that isn't in our list of data, it updates 3 lists. InitialiseData, CoursePreferences, and TotalCourses
+            if (!TotalCourses.Contains(preferredCourse))   
+            {
+                CourseAndPreference tempAdd = new CourseAndPreference(preferredCourse, preferredRating);
+                CoursePreferences.Add(tempAdd);
+                InitializeData.ListOfCourses.Add(tempAdd.course);
+                TotalCourses.Add(preferredCourse);
+            }
+            
+                  // I need to initialize CourseAndPreference with Every Course
+                    // then search that list and update the preference;
+            
+            else
+            {
+                for (int i = 0; i < CoursePreferences.Count; i++) 
+                {
+                    if(preferredCourse == CoursePreferences[i].course)
+                    {
+                        CoursePreferences[i].preference = preferredRating;
+                    }
+                }
+            }
         }
         public void AddAssignedCourse(Course freshCourse) 
         {
@@ -33,7 +63,11 @@ namespace ScheduleOptimizer.Logic
         // Takes in a course and returns that course with the Professor's preference of it.
         public CourseAndPreference GetCourseAndPreference(Course QuerryCourse)
         {
-            CourseAndPreference Answer = null;
+            if (!TotalCourses.Contains(QuerryCourse))
+            {
+                AddCoursePreference(QuerryCourse, 3); // 3 = default preference.
+            }
+            CourseAndPreference Answer = CoursePreferences[0];
             for (int i = 0; i < CoursePreferences.Count; i++) 
             {
                 if (CoursePreferences[i].course == QuerryCourse)
@@ -41,10 +75,7 @@ namespace ScheduleOptimizer.Logic
                     Answer = CoursePreferences[i];
                 }  
             }
-            if (Answer == null)
-            {
-                throw new Exception();
-            }
+            
             return Answer;
         }
 
@@ -74,7 +105,5 @@ namespace ScheduleOptimizer.Logic
             }
             return assignedList;
         }
-
-        
     }
 }
