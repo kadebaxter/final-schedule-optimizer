@@ -12,12 +12,14 @@ public static class InitializeData
     public static List<Professor> ListOfProfessors = [];
     public static List<Course> ListOfCourses = [];
     public static List<Room> ListOfRooms = [];
+    // should I build a list for CourseAndPreference and CourseProfessor?
 
     public static void BeginData()
     {
         AddProfessors();
         AddCourses();
         AddRooms();
+        BuildProfessorPreference();
     }
 
     public static void ClearData()
@@ -58,6 +60,7 @@ public static class InitializeData
             for (int j = 0; j < ListOfCourses.Count; j++)
             {
                 int pref = new Random().Next() % 4;
+                //int pref = 3;// this used to be random, but I couldn't be sure it was correct. 
 
                 tempProf.AddCoursePreference(ListOfCourses[i], pref);
             }
