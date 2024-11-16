@@ -16,7 +16,7 @@ public class RoomTests
         Course newCourse = new(12345, "Goated", true);
         InitializeData.ListOfCourses.Add(newCourse);
         
-        List<CourseRoom> courseRooms = Course.ReturnCoursesWithRooms();
+        List<CourseRoom> courseRooms = InitializeData.ListOfCourses[0].CoursesWithRooms();
         int count = courseRooms.Count;
 
         Assert.NotEmpty(courseRooms);
