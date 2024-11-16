@@ -1,44 +1,97 @@
-﻿@page "/professor"
+﻿@page "/Professor"
+@page "/use-InitializeData"
 @using ScheduleOptimizer.Logic;
+@using System.Collections;
 
 
 <PageTitle>Professor</PageTitle>
 
 <h1>Professor</h1>
+<p>@oodalally</p>
 
 <p>This is our Professor Class. It will eventually take in professor's preferences on classes and a few other fun things as well!'</p>
 
-@if (forecasts == null)
-{
-    <p><em>Loading...</em></p>
+<div class="border" style="padding:20px; margin: 20px">
+    <div style="display: flex; flex-direction: column">
+        @foreach(Logic.Course course in InitializeData.ListOfCourses){
+            <div class="flex-center" style="margin-bottom: 104px">
+                <div class="@course" style="width: 280px;">@course.CourseName</div>
+
+            </div>
+
+        }
+
+
+    </div> 
+    <button onclick="PrintCourse"></button>
+
+
+
+</div> 
+
+<table class="DisplayProfessors">
+
+
+
+
+</table>
+@code{
+    // I need to InitializeData.BeginData
+    // I need to summon a professor from InitializeData
+    // 
+    string oodalally = "golly what a day";
+    string courseName;
+    //Professor John = new Professor("John");
+    public void PrintCourse(){
+        courseName = InitializeData.ListOfCourses[0].CourseName;
+    }
+    
+    
+
 }
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                @* <th>Date</th>
-                <th>Temp. (C)</th>
-                <th>Temp. (F)</th>
-                <th>Summary</th> *@
-            </tr>
-       <!----> </thead>
-        <tbody>
-             @*  @foreach (var forecast in forecasts)
-              {
-                  <tr>
-                      <td>@forecast.Date.ToShortDateString()</td>
-                      <td>@forecast.TemperatureC</td>
-                      <td>@forecast.TemperatureF</td>
-                      <td>@forecast.Summary</td>
-                  </tr>
-              } *@
-            <button type="button" onclick="alert('Button clicked!')">
-                Click Me
-            </button>
-        </tbody>
-    </table>
-}
+
+
+
+
+
+
+
+
+
+<!--Everything below here is for reference from the default Weather page so Omner knows how to code HTML and Blazor-->
+
+@* @if (forecasts == null) *@
+@* { *@
+@*     <p><em>Loading...</em></p> *@
+@* } *@
+@* else *@
+@* { *@
+@* <table class="table"> *@
+@*     <thead> *@
+@*         <tr> *@
+@*             @* <th>Date</th> *@
+@*                 <th>Temp. (C)</th> *@
+@*                 <th>Temp. (F)</th> *@
+@*                 <th>Summary</th> *@ 
+@*         </tr> *@
+@*         <!----> *@
+@*     </thead> *@
+@*     <tbody> *@
+@*         @*  @foreach (var forecast in forecasts) *@
+@*               { *@
+@*                   <tr> *@
+@*                       <td>@forecast.Date.ToShortDateString()</td> *@
+@*                       <td>@forecast.TemperatureC</td> *@
+@*                       <td>@forecast.TemperatureF</td> *@
+@*                       <td>@forecast.Summary</td> *@
+@*                   </tr> *@
+@*               } *@ 
+@*     </tbody> *@
+@* </table> *@
+@* } *@
+
+
+
 
 @* @code { *@
 @*     private WeatherForecast[]? forecasts; *@
@@ -66,3 +119,4 @@ else
 @*         public int TemperatureF => 32 + (int)(TemperatureC / 0.5556); *@
 @*     } *@
 @* } *@
+
