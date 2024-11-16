@@ -9,7 +9,8 @@ public class Room
     public int RoomNumber { get; set; }
   
     public bool IsAvailable { get; set; }
-    
+    public RoomType RoomType { get => roomType; set => roomType = value; }
+
     private RoomType roomType;    // roomType should be one of these 3:
                                 // "lab", "normal", or "online"
     
@@ -19,7 +20,7 @@ public class Room
 
         RoomNumber = roomNumber;
         IsAvailable = true;
-        roomType = type;
+        RoomType = type;
 
     }
 
