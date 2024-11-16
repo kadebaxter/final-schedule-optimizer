@@ -1,0 +1,36 @@
+﻿@page "/schedule"
+@using ScheduleOptimizer.Logic;
+
+
+<PageTitle>Schedule</PageTitle>
+
+<h1>Schedule</h1>
+
+<button class="btn btn-primary" @onclick="SomeFunction">GenerateSchedule</button>
+<button class="btn btn-primary" @onclick="ClearFunction">Clear</button>
+
+@foreach (var item in finalSchedule)
+{
+   
+    <ul>@item.Key.Item1:@item.Key.Item2.CourseName at @item.Value.room.RoomNumber:@item.Value.professor.Name </ul>
+}
+@finalSchedule.Count()
+
+@code {
+    public Dictionary<(DateTime, ScheduleOptimizer.Logic.Course), ScheduledCourse> finalSchedule = new();
+
+    public void SomeFunction()
+    {
+        InitializeData.BeginData();
+        Scheduling schedule = new(Persistence.Semester.Spring, 5, InitializeData.ListOfCourses);
+
+        finalSchedule = schedule.GenerateSchedule(InitializeData.ListOfCourses[0].CoursesWithRooms(),
+        InitializeData.ListOfProfessors[0].CalculateCourseProfessor());
+    }
+
+    public void ClearFunction() 
+    {
+        InitializeData.ClearData();
+        finalSchedule.Clear();
+    }
+}
