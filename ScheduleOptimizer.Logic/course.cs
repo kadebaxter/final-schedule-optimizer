@@ -5,68 +5,66 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ScheduleOptimizer.Logic
+namespace ScheduleOptimizer.Logic;
+public class Course
 {
-    public class Course
+    public int CourseId { get; set; }
+    public string CourseName { get; set; }
+    public string Description { get; set; }
+    public bool NeedsLab { get; set; }
+
+    public Course(int courseId, string courseName)
     {
-        public int CourseId { get; set; }
-        public string CourseName { get; set; }
-        public string Description { get; set; }
-        public bool NeedsLab { get; set; }
+        CourseId = courseId;
+        CourseName = courseName;
+        Description = "N/A";
+    }
+    public Course(int courseId, string courseName, string description)
+    {
+        CourseId = courseId;
+        CourseName = courseName;
+        Description = description;
+    }
 
-        public Course(int courseId, string courseName)
-        {
-            CourseId = courseId;
-            CourseName = courseName;
-            Description = "N/A";
-        }
-        public Course(int courseId, string courseName, string description)
-        {
-            CourseId = courseId;
-            CourseName = courseName;
-            Description = description;
-        }
+    public Course(int courseId, string courseName, bool needsLab)
+    {
+        CourseId = courseId;
+        CourseName = courseName;
+        Description = "N/A";
+        NeedsLab = needsLab;
+    }
 
-        public Course(int courseId, string courseName, bool needsLab)
-        {
-            CourseId = courseId;
-            CourseName = courseName;
-            Description = "N/A";
-            NeedsLab = needsLab;
-        }
+    public void DisplayCourseInfo()
+    {
+        Console.WriteLine($"Course ID: {CourseId}");
+        Console.WriteLine($"Course Name: {CourseName}");
+        Console.WriteLine($"Description: {Description}");
+    }
+    public List<CourseRoom> CoursesWithRooms()
+    {
+        List<CourseRoom> roomCourseList = new();
 
-        public void DisplayCourseInfo()
+        int roomIndex = 0;
+        foreach (var course in InitializeData.ListOfCourses)
         {
-            Console.WriteLine($"Course ID: {CourseId}");
-            Console.WriteLine($"Course Name: {CourseName}");
-            Console.WriteLine($"Description: {Description}");
-        }
-        public static List<CourseRoom> ReturnCoursesWithRooms()
-        {
-            List<CourseRoom> roomCourseList = [];
-
-            int roomIndex = 0;
-            foreach (var course in InitializeData.ListOfCourses)
+            List<Room> coursesRoomsList = new();
+            foreach (var room in InitializeData.ListOfRooms)
             {
-                List<Room> coursesRoomsList = [];
-                foreach (var room in InitializeData.ListOfRooms)
+                if (course.NeedsLab && room.RoomType == Persistence.RoomType.Lab)
                 {
-                    if (course.NeedsLab && room.RoomType == Persistence.RoomType.Lab)
-                    {
-                        coursesRoomsList.Add(room);
-                    }
-                    else if (!course.NeedsLab && room.RoomType == Persistence.RoomType.Normal)
-                    {
-                        coursesRoomsList.Add(room);
-                    }
-                    else
-                    {
-                        continue;
-                    }
+                    coursesRoomsList.Add(room);
                 }
-                roomCourseList.Add(new(course, coursesRoomsList));
+                else if (!course.NeedsLab && room.RoomType == Persistence.RoomType.Normal)
+                {
+                    coursesRoomsList.Add(room);
+                }
+                else
+                {
+                    continue;
+                }
             }
-                return roomCourseList;
+            roomCourseList.Add(new(course, coursesRoomsList));
         }
+        return roomCourseList;
     }
 }

@@ -35,7 +35,7 @@ namespace ScheduleOptimizer.Tests
 
             //DID i INITIALIZE PREFERENCE YET?
 
-            List<CourseProfessor> assignedList = Professor.CalculateCourseProfessor();   // THIS LINE KILLS EVERYTHING
+            List<CourseProfessor> assignedList = InitializeData.ListOfProfessors[0].CalculateCourseProfessor();   // THIS LINE KILLS EVERYTHING
             Assert.Equal(testProf, assignedList[0].professor);
            
             // IMPORTANT: // make sure that there is a professor attatched to a course!
