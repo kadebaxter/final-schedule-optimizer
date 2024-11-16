@@ -1,4 +1,4 @@
-using ScheduleOptimizer.Logic;
+﻿using ScheduleOptimizer.Logic;
 
 public class CourseRoom
 {
@@ -8,5 +8,6 @@ public class CourseRoom
     {
         Course = course;
         Rooms = rooms;
+
     }
 }
