@@ -11,13 +11,13 @@
 
 @foreach (var item in finalSchedule)
 {
-   
-    <ul>@item.Key.Item1:@item.Key.Item2.CourseName at @item.Value.room.RoomNumber:@item.Value.professor.Name </ul>
+    <ul>@item.Key.Item1.DayOfWeek - @item.Key.Item1.Hour:@item.Key.Item1.Minute - @item.Key.Item2.CourseName at @item.Value.room.RoomNumber - @item.Value.professor.Name </ul>
 }
 @finalSchedule.Count()
 
 @code {
     public Dictionary<(DateTime, ScheduleOptimizer.Logic.Course), ScheduledCourse> finalSchedule = new();
+    public int day = 0;
 
     public void SomeFunction()
     {
