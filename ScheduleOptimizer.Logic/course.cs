@@ -1,3 +1,4 @@
+using ScheduleOptimizer.Logic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace ScheduleOptimizer.Logic
         public int CourseId { get; set; }
         public string CourseName { get; set; }
         public string Description { get; set; }
-        public bool NeedsLab {  get; set; }
+        public bool NeedsLab { get; set; }
 
         public Course(int courseId, string courseName)
         {
@@ -26,11 +27,46 @@ namespace ScheduleOptimizer.Logic
             Description = description;
         }
 
+        public Course(int courseId, string courseName, bool needsLab)
+        {
+            CourseId = courseId;
+            CourseName = courseName;
+            Description = "N/A";
+            NeedsLab = needsLab;
+        }
+
         public void DisplayCourseInfo()
         {
             Console.WriteLine($"Course ID: {CourseId}");
             Console.WriteLine($"Course Name: {CourseName}");
             Console.WriteLine($"Description: {Description}");
+        }
+        public static List<CourseRoom> ReturnCoursesWithRooms()
+        {
+            List<CourseRoom> roomCourseList = [];
+
+            int roomIndex = 0;
+            foreach (var course in InitializeData.ListOfCourses)
+            {
+                List<Room> coursesRoomsList = [];
+                foreach (var room in InitializeData.ListOfRooms)
+                {
+                    if (course.NeedsLab && room.RoomType == Persistence.RoomType.Lab)
+                    {
+                        coursesRoomsList.Add(room);
+                    }
+                    else if (!course.NeedsLab && room.RoomType == Persistence.RoomType.Normal)
+                    {
+                        coursesRoomsList.Add(room);
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+                roomCourseList.Add(new(course, coursesRoomsList));
+            }
+                return roomCourseList;
         }
     }
 }
