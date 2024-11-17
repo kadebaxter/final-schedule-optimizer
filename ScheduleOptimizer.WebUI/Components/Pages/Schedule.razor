@@ -11,7 +11,6 @@
 
 @foreach (var item in finalSchedule)
 {
-   
     <ul>@item.Key.Item1:@item.Key.Item2.CourseName at @item.Value.room.RoomNumber:@item.Value.professor.Name </ul>
 }
 @finalSchedule.Count()
