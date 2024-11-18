@@ -1,68 +1,61 @@
 ﻿@page "/professor"
+@page "/use-InitializeData"
 @using ScheduleOptimizer.Logic;
+@using System.Collections;
 
 
 <PageTitle>Professor</PageTitle>
 
 <h1>Professor</h1>
 
-<p>This is our Professor Class. It will eventually take in professor's preferences on classes and a few other fun things as well!'</p>
+<p>This is our Professor page. It will eventually take in professor's preferences on classes and a few other fun things as well!'</p>
+<button class="btn btn-primary" @onclick="PrintCourses">Print the list of Professors</button>
+<button class="btn btn-primary" @onclick="ClearCourses">Clear Courses</button>
 
-@if (forecasts == null)
+<tr style="background-color: #fff">
+    <td style="padding: 8px; border: 1px solid #111;">Professor Name</td>
+    @* <td style="padding: 8px; border: 1px solid #111;">Course Name</td> *@
+    @* <td style="padding: 8px; border: 1px solid #111;">Description</td> *@
+    @* <td style="padding: 8px; border: 1px solid #111;">Needs Lab?</td> *@
+    @* <td style="padding: 8px; border: 1px solid #111;">Preference (Out of 5)</td> *@
+
+</tr>
+@for (int i = 0; i < InitializeData.ListOfProfessors.Count(); i++)
 {
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                @* <th>Date</th>
-                <th>Temp. (C)</th>
-                <th>Temp. (F)</th>
-                <th>Summary</th> *@
-            </tr>
-       <!----> </thead>
-        <tbody>
-             @*  @foreach (var forecast in forecasts)
-              {
-                  <tr>
-                      <td>@forecast.Date.ToShortDateString()</td>
-                      <td>@forecast.TemperatureC</td>
-                      <td>@forecast.TemperatureF</td>
-                      <td>@forecast.Summary</td>
-                  </tr>
-              } *@
-            <button type="button" onclick="alert('Button clicked!')">
-                Click Me
-            </button>
-        </tbody>
-    </table>
+    @if (i % 2 == 1)
+    {
+        <tr style="background-color: #fff">
+            <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfProfessors[i].Name</td>
+            @* <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfProfessors[0].AssignedCourses[i].CourseName</td> *@
+            @* <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfProfessors[0].AssignedCourses[i].Description</td> *@
+            @* <td style="padding: 8px; border: 1px solid #111;">@(InitializeData.ListOfProfessors[0].AssignedCourses[i].NeedsLab ? "Yes" : "No")</td> *@
+            @* <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfProfessors[0].GetCourseAndPreference(InitializeData.ListOfProfessors[0].AssignedCourses[i]).preference</td> *@
+
+        </tr>
+    }
+    else
+    {
+        <tr style="background-color: #888">
+            <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfProfessors[i].Name</td>
+            @* <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfProfessors[0].AssignedCourses[i].CourseName</td> *@
+            @* <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfProfessors[0].AssignedCourses[i].Description</td> *@
+            @* <td style="padding: 8px; border: 1px solid #111;">@(InitializeData.ListOfProfessors[0].AssignedCourses[i].NeedsLab ? "Yes" : "No")</td> *@
+            @* <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfProfessors[0].GetCourseAndPreference(InitializeData.ListOfProfessors[0].AssignedCourses[i]).preference</td> *@
+
+        </tr>
+    }
 }
 
 @code {
-    private WeatherForecast[]? forecasts;
-
-    protected override async Task OnInitializedAsync()
+    private void PrintCourses()
     {
-        // Simulate asynchronous loading to demonstrate a loading indicator
-        await Task.Delay(500);
 
-        var startDate = DateOnly.FromDateTime(DateTime.Now);
-        var summaries = new[] { "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching" };
-        forecasts = Enumerable.Range(1, 5).Select(index => new WeatherForecast
-        {
-            Date = startDate.AddDays(index),
-            TemperatureC = Random.Shared.Next(-20, 55),
-            Summary = summaries[Random.Shared.Next(summaries.Length)]
-        }).ToArray();
+        InitializeData.BeginData();
     }
 
-    private class WeatherForecast
+    private void ClearCourses()
     {
-        public DateOnly Date { get; set; }
-        public int TemperatureC { get; set; }
-        public string? Summary { get; set; }
-        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+        InitializeData.ClearData();
     }
 }
+
