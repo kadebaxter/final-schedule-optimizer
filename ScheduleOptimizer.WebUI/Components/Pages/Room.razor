@@ -1,0 +1,53 @@
+﻿@page "/room"
+@using ScheduleOptimizer.Logic
+<PageTitle>Room</PageTitle>
+
+<h1>Room Management</h1>
+
+<button class="btn btn-primary" @onclick="PrintRooms">Print Rooms</button>
+<button class="btn btn-primary" @onclick="ClearRooms">Clear Rooms</button>
+
+<table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+    <thead>
+        <tr style="background-color: #333; color: #fff;">
+            <th style="padding: 8px; border: 1px solid #111;">Room Number</th>
+            <th style="padding: 8px; border: 1px solid #111;">Room Type</th>
+            <th style="padding: 8px; border: 1px solid #111;">Availability</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < InitializeData.ListOfRooms.Count(); i++)
+        {
+            if (i % 2 == 1)
+            {
+                <tr style="background-color: #fff">
+                    <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfRooms[i].RoomNumber</td>
+                    <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfRooms[i].RoomType</td>
+                    <td style="padding: 8px; border: 1px solid #111;">@(InitializeData.ListOfRooms[i].IsAvailable ? "Available" : "Occupied")</td>
+                </tr>
+            }
+            else
+            {
+                <tr style="background-color: #ccc">
+                    <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfRooms[i].RoomNumber</td>
+                    <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfRooms[i].RoomType</td>
+                    <td style="padding: 8px; border: 1px solid #111;">@(InitializeData.ListOfRooms[i].IsAvailable ? "Available" : "Occupied")</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+@code {
+    private void PrintRooms()
+    {
+
+        InitializeData.BeginData();
+    }
+
+    private void ClearRooms()
+    {
+    \
+    InitializeData.ClearData();
+    }
+}
