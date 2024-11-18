@@ -9,11 +9,26 @@
 <button class="btn btn-primary" @onclick="SomeFunction">GenerateSchedule</button>
 <button class="btn btn-primary" @onclick="ClearFunction">Clear</button>
 
-@foreach (var item in finalSchedule)
+<tr style="background-color: #fff">
+    <td style="padding: 8px; border: 1px solid #111;">Day</td>
+    <td style="padding: 8px; border: 1px solid #111;">Time</td>
+    <td style="padding: 8px; border: 1px solid #111;">Course Name</td>
+    <td style="padding: 8px; border: 1px solid #111;">Room Number</td>
+    <td style="padding: 8px; border: 1px solid #111;">Professor</td>
+</tr>
+
+@foreach (var (item, index) in finalSchedule.Select((value, idx) => (value, idx)))
 {
-    <ul>@item.Key.Item1.DayOfWeek - @item.Key.Item1.Hour:@item.Key.Item1.Minute - @item.Key.Item2.CourseName at @item.Value.room.RoomNumber - @item.Value.professor.Name </ul>
+    var rowColor = index % 2 == 0 ? "#888" : "#f9f9f9";
+     <!-- Alternating colors -->
+    <tr style="background-color: @rowColor">
+        <td style="padding: 8px; border: 1px solid #111;">@item.Key.Item1.DayOfWeek</td>
+        <td style="padding: 8px; border: 1px solid #111;">@item.Key.Item1.Hour:@item.Key.Item1.Minute</td>
+        <td style="padding: 8px; border: 1px solid #111;">@item.Key.Item2.CourseName</td>
+        <td style="padding: 8px; border: 1px solid #111;">@item.Value.room.RoomNumber</td>
+        <td style="padding: 8px; border: 1px solid #111;">@item.Value.professor.Name</td>
+    </tr>
 }
-@finalSchedule.Count()
 
 @code {
     public Dictionary<(DateTime, ScheduleOptimizer.Logic.Course), ScheduledCourse> finalSchedule = new();
@@ -28,7 +43,7 @@
         InitializeData.ListOfProfessors[0].CalculateCourseProfessor());
     }
 
-    public void ClearFunction() 
+    public void ClearFunction()
     {
         InitializeData.ClearData();
         finalSchedule.Clear();
