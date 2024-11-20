@@ -2,7 +2,7 @@
 @page "/use-InitializeData"
 @using ScheduleOptimizer.Logic;
 @using System.Collections;
-@using System.Collections.Generic;
+@using System.Collections.Generic; @*In here say using at dataholder or singleton thing. See program.cs for more*@
 
 
 <PageTitle>Professor</PageTitle>
@@ -54,7 +54,7 @@
 }
 
 <tr><p>@feedback</p></tr>
-<p>Number of Professors: @length</p>
+<p>Number of Professors: @Logic.InitializeData.ListOfProfessors.Count</p>
 
 @code {
 
@@ -76,7 +76,7 @@
         // <p>Added A Professor, you tried.</p>
         Logic.Professor prof = new Logic.Professor(profName);
         InitializeData.ListOfProfessors.Add(prof);
-        prof.AddAProfessorToInitData(prof);
+        // prof.AddAProfessorToInitData(prof);
 
         feedback = ($"You added {Logic.InitializeData.ListOfProfessors[Logic.InitializeData.ListOfProfessors.Count - 1].Name} to the list of professors!");
    
