@@ -56,7 +56,6 @@ namespace ScheduleOptimizer.Logic
                     return course.professor;
                 }
             }
-
             return new($"{name} Created");
         }
 

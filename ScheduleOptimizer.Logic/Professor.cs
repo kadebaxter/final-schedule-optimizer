@@ -81,7 +81,7 @@ namespace ScheduleOptimizer.Logic
 
         // assignes professors to courses based on which courses they like to teach. 
         // IMPORTANT:   this method Also fills the list in each professor class of which courses they are assigned.
-        public static List<CourseProfessor> CalculateCourseProfessor()
+        public List<CourseProfessor> CalculateCourseProfessor()
         {
             List<CourseProfessor> assignedList = new List<CourseProfessor>();
             for (int i = 0; i < InitializeData.ListOfCourses.Count; i++) 
@@ -104,6 +104,15 @@ namespace ScheduleOptimizer.Logic
                 assignedList[i].professor.AddAssignedCourse(assignedList[i].course);
             }
             return assignedList;
+        }
+
+
+
+
+
+        public static void CallInitializeData()// Blazor wasn't liking me and we'll see if this fixes it.
+        {
+            InitializeData.BeginData();
         }
     }
 }
