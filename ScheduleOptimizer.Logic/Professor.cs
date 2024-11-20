@@ -104,13 +104,7 @@ namespace ScheduleOptimizer.Logic
             }
             return assignedList;
         }
-        public static void CallInitializeData()// Blazor wasn't liking me and we'll see if this fixes it.
-        {
-            InitializeData.BeginData();
-        }
-        public void AddAProfessorToInitData(Professor prof)
-        {
-            InitializeData.ListOfProfessors.Add(prof);
-        }
+        
+       
     }
 }

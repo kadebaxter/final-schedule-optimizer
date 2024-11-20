@@ -1,3 +1,4 @@
+using ScheduleOptimizer.Logic;
 using ScheduleOptimizer.WebUI.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,7 +6,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+InitializeData.BeginData();
 //builder.Services.AddSingleton<myContextdataHolder>();// In here you can initialize your InitializeData class. 
+
 
 var app = builder.Build();
 
