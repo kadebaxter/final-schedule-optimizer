@@ -3,9 +3,17 @@
 <PageTitle>Course</PageTitle>
 
 <h1>Course</h1>
+<input type="text" @bind="courseName" placeholder="Name of Course" />
+<input type="text" @bind="courseID" placeholder="Course ID (numbers only)" />
+<input type="text" @bind="description" placeholder="Description" />
+<input type="text" @bind="needsLab" placeholder="Needs Lab: yes/leave blank" />
 
-<button class="btn btn-primary" @onclick="PrintCourses">Print Courses</button>
-<button class="btn btn-primary" @onclick="ClearCourses">Clear Courses</button>
+
+
+
+<button class="btn btn-primary" @onclick="AddCourse">Add Course</button>
+<button class="btn btn-primary" style="background-color: #ff8800" @onclick="RemoveCourse">Remove Course</button>
+<button class="btn btn-primary" style="background-color: #ff0000" @onclick="ClearCourses">Clear Courses</button>
 
 <tr style="background-color: #fff">
     <td style="padding: 8px; border: 1px solid #111;">Course ID</td>
@@ -35,9 +43,63 @@
 }
 
 @code {
+    private string courseName;
+    private string courseID;
+    private string description;
+    private string needsLab;
+    private bool lab;
     private void PrintCourses()
     {
         InitializeData.BeginData();
+    }
+    private void AddCourse(){
+        // add course here.
+        if(needsLab == "yes" ||needsLab== "Yes" || needsLab == "YES" || needsLab == "y" || needsLab == "Y"){
+            lab = true;
+            Logic.Course addingCourse = new Logic.Course(int.Parse(courseID), courseName, lab);
+
+            if(description != "")
+            {
+                addingCourse.Description = description;
+            }
+            InitializeData.ListOfCourses.Add(addingCourse);
+
+        }
+        else{
+            Logic.Course addingCourse = new Logic.Course(int.Parse(courseID), courseName);
+            if(description != "")
+            {
+                addingCourse.Description = description;
+            }
+            InitializeData.ListOfCourses.Add(addingCourse);
+        }
+        courseName = string.Empty; courseID = string.Empty; description = string.Empty; needsLab = string.Empty;
+    }
+    private void RemoveCourse(){
+        if(courseID != "")
+        {
+            for (int i = 0; i < Logic.InitializeData.ListOfCourses.Count; i++)
+            {
+                if (Logic.InitializeData.ListOfCourses[i].CourseId == int.Parse(courseID))
+                {
+                    Logic.InitializeData.ListOfCourses.Remove(InitializeData.ListOfCourses[i]);
+                    break;
+                }
+            }
+        }
+        else if(courseName != "")
+        {
+            for (int i = 0; i < Logic.InitializeData.ListOfCourses.Count; i++)
+            {
+                if (Logic.InitializeData.ListOfCourses[i].CourseName == courseName)
+                {
+                    Logic.InitializeData.ListOfCourses.Remove(InitializeData.ListOfCourses[i]);
+                    break;
+                }
+            }
+
+        }
+        courseName = string.Empty; courseID = string.Empty; description = string.Empty; needsLab = string.Empty;
     }
 
     private void ClearCourses()
