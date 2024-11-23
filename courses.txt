@@ -1,0 +1,6 @@
+IntroSE,1574
+Computer Organization and Architecture,3374
+Statistics for Scientists and Engineers,3375
+Discrete Math,2555
+Biology 1610,2303
+English 1010,2252

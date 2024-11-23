@@ -27,10 +27,48 @@ namespace ScheduleOptimizer.Persistence
         }
 
         //string for room type = "lab", "normal", or "online"
+        public static string[] ReadInRooms()
+        {
+            string[] rooms = File.ReadAllLines(FindFile("rooms.txt"));
+            return rooms;
+        }
 
+        public static string[] ReadInCourses()
+        {
+            string[] courses = File.ReadAllLines(FindFile("courses.txt"));
+            return courses;
+        }
 
+        public static string[] ReadInProfessors()
+        {
+            string[] professors = File.ReadAllLines(FindFile("professors.txt"));
+            return professors;
+        }
 
+        public static string[] ReadInSchedules()
+        {
+            string[] schedules = File.ReadAllLines(FindFile("schedules.txt"));
+            return schedules;
+        }
 
+        public static string FindFile(string fileName)
+        {
+            var directory = new DirectoryInfo(Directory.GetCurrentDirectory());
+            while (true)
+            {
+                var testPath = Path.Combine(directory.FullName, fileName);
+                if (File.Exists(testPath))
+                {
+                    return testPath;
+                }
+
+                if (directory.FullName == directory.Root.FullName)
+                {
+                    throw new FileNotFoundException($"I looked for {fileName} in every folder from {Directory.GetCurrentDirectory()} to {directory.Root.FullName} and couldn't find it.");
+                }
+                directory = directory.Parent;
+            }
+        }
     }
 }
 
