@@ -35,6 +35,12 @@ public static class InitializeData
         ListOfScheduledCourses.Clear();
     }
 
+    public static void SaveData()
+    {
+        PersistData.WriteAllToFile(RoomsToText(ListOfRooms), CoursesToText(ListOfCourses), ProfessorsToText(ListOfProfessors), SchedulesToText(ListOfScheduledCourses));
+    }
+
+
     private static void FillRoomList(string[] strings)
     {
         foreach (string s in strings)
@@ -47,7 +53,11 @@ public static class InitializeData
     {
         foreach (string s in strings)
         {
-            ListOfCourses.Add(ParseCourse(s));
+            var course = ParseCourse(s);
+            if (!ListOfCourses.Any(c => c.CourseId == course.CourseId))
+            {
+                ListOfCourses.Add(course);
+            }
         }
     }
 
@@ -67,21 +77,26 @@ public static class InitializeData
         }
     }
 
+    private static RoomType ParseRoomType(string roomType)
+    {
+        switch (roomType)
+        {
+            case "normal":
+                return RoomType.Normal;
+            case "lab":
+                return RoomType.Lab;
+            case "online":
+                return RoomType.Online;
+            default:
+                throw new Exception("Didn't have the correct room type in file input.");
+        }
+    }
+
     private static Room ParseRoom(string s)
     {
         string[] parts = s.Split(',');
         int roomNumber = int.Parse(parts[0]);
-        switch (parts[1])
-        {
-            case "normal":
-                return new(roomNumber, RoomType.Normal);
-            case "lab":
-                return new(roomNumber, RoomType.Lab);
-            case "online":
-                return new(roomNumber, RoomType.Online);
-            default:
-                throw new Exception("Didn't have the correct room type in file input.");
-        }
+        return new(roomNumber, ParseRoomType(parts[1]));
     }
 
     private static Course ParseCourse(string s)
@@ -98,10 +113,76 @@ public static class InitializeData
         return professor;
     }
 
+    //sb.AppendLine($"{scheduledCourse.professor.Name},{scheduledCourse.course.CourseName},{scheduledCourse.course.CourseId}," +
+    //            $"{scheduledCourse.course.NeedsLab},{scheduledCourse.room.RoomNumber},{scheduledCourse.room.RoomType.ToString()},{scheduledCourse.date.ToString()}")
     private static ScheduledCourse ParseScheduledCourse(string s)
     {
-        throw new NotImplementedException();
+        string[] parts = s.Split(",");
+        Professor schCrsPro = new("THIS IS WRONG");
+        foreach (var profe in ListOfProfessors)
+        {
+            if (profe.Name == parts[0])
+                schCrsPro = profe;
+        }
+
+        Course schCrs = new(1234567, "THIS IS WRONG");
+        foreach (var course in ListOfCourses)
+        {
+            if ( (course.CourseName == parts[1]) && (course.CourseId == int.Parse(parts[2])) && (course.NeedsLab == bool.Parse(parts[3])) )
+                schCrs = course;
+        }
+
+        Room schRm = new(1234567, RoomType.Online);
+        foreach (var room in ListOfRooms)
+        {
+            if ((room.RoomNumber == int.Parse(parts[4])) && (room.RoomType == ParseRoomType(parts[5])))
+                schRm = room;
+        }
+        return new(schCrs, schCrsPro, schRm, DateTime.Parse(parts[6]));
     }
+
+    private static string RoomsToText(List<Room> roomsList)
+    {
+        StringBuilder sb = new StringBuilder();
+        foreach (Room room in roomsList) 
+        {
+            sb.AppendLine($"{room.RoomNumber},{room.RoomType.ToString().ToLower()}");
+        }
+        return sb.ToString();
+    }
+
+    private static string CoursesToText(List<Course> listOfCourses)
+    {
+        StringBuilder sb = new StringBuilder();
+        foreach (Course course in listOfCourses)
+        {
+            sb.AppendLine($"{course.CourseName},{course.CourseId},{course.NeedsLab}");
+        }
+        return sb.ToString();
+    }
+
+    private static string ProfessorsToText(List<Professor> listOfProfessors)
+    {
+        StringBuilder sb = new StringBuilder();
+        foreach (Professor professor in listOfProfessors)
+        {
+            sb.AppendLine($"{professor.Name}");
+        }
+        return sb.ToString();
+    }
+
+    private static string SchedulesToText(List<ScheduledCourse> listOfScheduledCourses)
+    {
+        StringBuilder sb = new StringBuilder();
+        foreach (var scheduledCourse in listOfScheduledCourses)
+        {
+            sb.AppendLine($"{scheduledCourse.professor.Name},{scheduledCourse.course.CourseName},{scheduledCourse.course.CourseId}," +
+                $"{scheduledCourse.course.NeedsLab},{scheduledCourse.room.RoomNumber},{scheduledCourse.room.RoomType.ToString()},{scheduledCourse.date.ToString()}");
+        }
+        return sb.ToString();
+    }
+
+
     private static void AddProfessors()
     {
         foreach (string name in PersistData.BuildProfessorList())
@@ -136,7 +217,7 @@ public static class InitializeData
                 int pref = new Random().Next() % 4;
                 //int pref = 3;// this used to be random, but I couldn't be sure it was correct. 
 
-                tempProf.AddCoursePreference(ListOfCourses[i], pref);
+                tempProf.AddCoursePreference(ListOfCourses[j], pref);
             }
         }
     }

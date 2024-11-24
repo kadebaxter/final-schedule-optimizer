@@ -7,7 +7,7 @@
 <h1>Schedule</h1>
 
 <button class="btn btn-primary" @onclick="SomeFunction">GenerateSchedule</button>
-<button class="btn btn-primary" @onclick="ClearFunction">Clear</button>
+<button class="btn btn-primary" @onclick="SaveFunction">Save</button>
 
 <tr style="background-color: #fff">
     <td style="padding: 8px; border: 1px solid #111;">Day</td>
@@ -20,7 +20,7 @@
 @foreach (var (item, index) in finalSchedule.Select((value, idx) => (value, idx)))
 {
     var rowColor = index % 2 == 0 ? "#888" : "#f9f9f9";
-     <!-- Alternating colors -->
+    <!-- Alternating colors -->
     <tr style="background-color: @rowColor">
         <td style="padding: 8px; border: 1px solid #111;">@item.Key.Item1.DayOfWeek</td>
         <td style="padding: 8px; border: 1px solid #111;">@item.Key.Item1.Hour:@item.Key.Item1.Minute</td>
@@ -47,5 +47,10 @@
     {
         //InitializeData.ClearData();
         finalSchedule.Clear();
+    }
+
+    public void SaveFunction()
+    {
+        InitializeData.SaveData();
     }
 }
