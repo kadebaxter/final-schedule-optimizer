@@ -3,9 +3,4 @@ Craig
 Garth
 Heber
 Bob
-John
-Craig
-Garth
-Heber
-Bob
-Somebody was here
+Hello There
