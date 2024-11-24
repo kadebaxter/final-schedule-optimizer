@@ -177,7 +177,8 @@ public static class InitializeData
         foreach (var scheduledCourse in listOfScheduledCourses)
         {
             sb.AppendLine($"{scheduledCourse.professor.Name},{scheduledCourse.course.CourseName},{scheduledCourse.course.CourseId}," +
-                $"{scheduledCourse.course.NeedsLab},{scheduledCourse.room.RoomNumber},{scheduledCourse.room.RoomType.ToString()},{scheduledCourse.date.ToString()}");
+                $"{scheduledCourse.course.NeedsLab},{scheduledCourse.room.RoomNumber},{scheduledCourse.room.RoomType.ToString().ToLower()},{scheduledCourse.date.ToString()}");
+            //sb.AppendLine("Is this thing working");
         }
         return sb.ToString();
     }
