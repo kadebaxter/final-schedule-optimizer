@@ -1,6 +1,6 @@
-IntroSE,1574
-Computer Organization and Architecture,3374
-Statistics for Scientists and Engineers,3375
-Discrete Math,2555
-Biology 1610,2303
-English 1010,2252
+IntroSE,1574,False
+Computer Organization and Architecture,3374,False
+Statistics for Scientists and Engineers,3375,False
+Discrete Math,2555,False
+Biology 1610,2303,False
+English 1010,2252,False

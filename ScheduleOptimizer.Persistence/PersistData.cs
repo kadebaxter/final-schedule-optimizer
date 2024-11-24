@@ -51,6 +51,14 @@ namespace ScheduleOptimizer.Persistence
             return schedules;
         }
 
+        public static void WriteAllToFile(string rooms, string courses, string professors, string schedules)
+        {
+            File.WriteAllText(FindFile("rooms.txt"), rooms);
+            File.WriteAllText(FindFile("courses.txt"), courses);
+            File.WriteAllText(FindFile("professors.txt"), professors);
+            File.WriteAllText(FindFile("schedules.txt"), schedules);
+        }
+
         public static string FindFile(string fileName)
         {
             var directory = new DirectoryInfo(Directory.GetCurrentDirectory());
@@ -69,6 +77,7 @@ namespace ScheduleOptimizer.Persistence
                 directory = directory.Parent;
             }
         }
+
     }
 }
 
