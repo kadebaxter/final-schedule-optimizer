@@ -5,7 +5,7 @@
 <h1>Room Management</h1>
 
 <button class="btn btn-primary" @onclick="PrintRooms">Print Rooms</button>
-<button class="btn btn-primary" @onclick="ClearRooms">Clear Rooms</button>
+@* <button class="btn btn-primary" @onclick="ClearRooms">Clear Rooms</button> *@
 
 <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
     <thead>
@@ -47,6 +47,6 @@
 
     private void ClearRooms()
     {    
-        InitializeData.ClearData();
+        //InitializeData.ClearData();
     }
 }
