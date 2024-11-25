@@ -2,18 +2,32 @@
 @page "/use-InitializeData"
 @using ScheduleOptimizer.Logic;
 @using System.Collections;
+@using System.Collections.Generic; @*In here say using at dataholder or singleton thing. See program.cs for more*@
 
 
 <PageTitle>Professor</PageTitle>
 
 <h1>Professor</h1>
 
-<p>This is our Professor page. It will eventually take in professor's preferences on classes and a few other fun things as well!'</p>
-<button class="btn btn-primary" @onclick="PrintCourses">Print the list of Professors</button>
-<button class="btn btn-primary" @onclick="ClearCourses">Clear Courses</button>
+<p>This is our Professor page. It will eventually be able to add new profesors and a few other fun things as well!'</p>
 
-<tr style="background-color: #fff">
-    <td style="padding: 8px; border: 1px solid #111;">Professor Name</td>
+<input type="text" @bind="profName" placeholder="Professor's Name" />
+
+<button class="btn btn-primary" @onclick="AddProf">Add Professor</button>
+
+
+<button style="background-color: #ff8800" class="btn btn-primary" @onclick="RemoveProfessor">Remove Professor</button>
+
+
+<button style="background-color: #ff0000" class="btn btn-primary" @onclick="ClearProfessors">Clear List of Professors</button>
+
+<button style="background-color: #00f800" class="btn btn-primary" @onclick="ReinitProf">Reinitialize Professors</button>
+
+<p>Total number of Professors: @Logic.InitializeData.ListOfProfessors.Count</p>
+
+
+<tr style="background-color: #0ff">
+    @* <td style="padding: 8px; border: 1px solid #111;">Professor Name</td>   *@
     @* <td style="padding: 8px; border: 1px solid #111;">Course Name</td> *@
     @* <td style="padding: 8px; border: 1px solid #111;">Description</td> *@
     @* <td style="padding: 8px; border: 1px solid #111;">Needs Lab?</td> *@
@@ -44,18 +58,46 @@
 
         </tr>
     }
+    @* <p>You are trying to add this professor name: @($"{profName}")</p> *@
+
 }
 
+
 @code {
-    private void PrintCourses()
-    {
 
-        InitializeData.BeginData();
+    private string profName;
+    private string feedback;
+    private int length = Logic.InitializeData.ListOfProfessors.Count;
+
+
+    private void ClearProfessors()
+    {
+        Logic.InitializeData.ClearData();
     }
-
-    private void ClearCourses()
+    private void ReinitProf()
     {
-        InitializeData.ClearData();
+        Logic.InitializeData.BeginData();
+    }
+    private void AddProf() {
+
+        //Add the professor here using the string profName
+        // <p>Added A Professor, you tried.</p>
+        Logic.Professor prof = new Logic.Professor(profName);
+        profName = string.Empty;
+        InitializeData.ListOfProfessors.Add(prof);
+        // prof.AddAProfessorToInitData(prof);
+
+        feedback = ($"You added {Logic.InitializeData.ListOfProfessors[Logic.InitializeData.ListOfProfessors.Count - 1].Name} to the list of professors!");
+
+    }
+    private void RemoveProfessor(){
+        for(int i = 0; i<Logic.InitializeData.ListOfProfessors.Count; i++){
+            if(Logic.InitializeData.ListOfProfessors[i].Name == profName){
+                Logic.InitializeData.ListOfProfessors.Remove(Logic.InitializeData.ListOfProfessors[i]);
+                profName = string.Empty;
+                break;
+            }
+        }
     }
 }
 

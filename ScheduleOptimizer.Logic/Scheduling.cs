@@ -64,14 +64,22 @@ namespace ScheduleOptimizer.Logic
             Dictionary<(DateTime, Course), ScheduledCourse> scheduledCourseList = new();
             _availableTimes = SetTimes([730, 830, 930, 1030, 1130, 1230, 130, 230, 330, 430]);
             Random random = new Random();
+            List<int> randomNumbersList = new();
             for (int i = 0; i < courseRooms.Count(); i++)
             {
-                int randomNumber = random.Next(0, _availableTimes.Count() - 1);
-
-                scheduledCourseList.Add((_availableTimes[randomNumber].date, courseRooms[i].Course),
+                int newRandomNumber = random.Next(0, _availableTimes.Count() - 1);
+                for (int j = 0; j < randomNumbersList.Count(); j++)
+                {
+                    while (randomNumbersList[j] == newRandomNumber)
+                    {
+                        newRandomNumber = random.Next(0, _availableTimes.Count() - 1);
+                    }
+                }
+                randomNumbersList.Add(newRandomNumber);
+                scheduledCourseList.Add((_availableTimes[newRandomNumber].date, courseRooms[i].Course),
                     new(courseRooms[i].Course,
                     ReturnProfessorGivenName(courseRooms[i].Course.CourseName, professorCourses),
-                    courseRooms[i].Rooms[random.Next(0, courseRooms[i].Rooms.Count() - 1)], _availableTimes[randomNumber].date));
+                    courseRooms[i].Rooms[random.Next(0, courseRooms[i].Rooms.Count() - 1)], _availableTimes[newRandomNumber].date));
             }
             return scheduledCourseList;
         }

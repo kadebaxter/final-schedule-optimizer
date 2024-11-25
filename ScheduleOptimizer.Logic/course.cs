@@ -42,7 +42,7 @@ public class Course
     }
     public List<CourseRoom> CoursesWithRooms()
     {
-        List<CourseRoom> roomCourseList = new();
+        List<CourseRoom> courseRoomsList = new();
 
         int roomIndex = 0;
         foreach (var course in InitializeData.ListOfCourses)
@@ -63,8 +63,8 @@ public class Course
                     continue;
                 }
             }
-            roomCourseList.Add(new(course, coursesRoomsList));
+            courseRoomsList.Add(new(course, coursesRoomsList));
         }
-        return roomCourseList;
+        return courseRoomsList;
     }
 }
