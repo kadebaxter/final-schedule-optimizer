@@ -4,3 +4,7 @@ Statistics for Scientists and Engineers,3375,False
 Discrete Math,2555,False
 Biology 1610,2303,False
 English 1010,2252,False
+Programming Fundamentals,1576,False
+Programming Fundamentals Lab,1079,True
+User Experience Design,2076,True
+Digital Circuits,1565,False
