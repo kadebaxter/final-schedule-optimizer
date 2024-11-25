@@ -1,0 +1,6 @@
+John,IntroSE,1574,False,123,normal,12/5/2024 12:30:00 PM
+John,Computer Organization and Architecture,3374,False,124,normal,12/5/2024 4:30:00 AM
+John,Statistics for Scientists and Engineers,3375,False,124,normal,12/2/2024 7:30:00 AM
+John,Discrete Math,2555,False,124,normal,12/3/2024 11:30:00 AM
+John,Biology 1610,2303,False,123,normal,12/3/2024 1:30:00 AM
+John,English 1010,2252,False,125,normal,12/4/2024 3:30:00 AM

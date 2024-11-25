@@ -2,7 +2,6 @@
 using ScheduleOptimizer.Persistence;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.Design;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -10,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ScheduleOptimizer.Logic
 {
-
+    
 
     public class Professor
     {
@@ -19,11 +18,11 @@ namespace ScheduleOptimizer.Logic
         public List<Course> AssignedCourses { get; private set; } = [];
         private List<Course> TotalCourses { get; set; } = [];
 
-        public Professor(string name)
+        public Professor(string name)   
         {
             Name = name;
             // I initialize a list of all courses with a default neutral preference of int 3 each time you create a professor
-            for (int i = 0; i < InitializeData.ListOfCourses.Count; i++)
+            for (int i = 0; i < InitializeData.ListOfCourses.Count; i++) 
             {
                 CourseAndPreference tempItem = new CourseAndPreference(InitializeData.ListOfCourses[i]);
                 CoursePreferences.Add(tempItem);
@@ -33,32 +32,30 @@ namespace ScheduleOptimizer.Logic
         }
         public void AddCoursePreference(Course preferredCourse, int preferredRating)
         {
-            bool courseExists = false;
-            // I do believe that this was was causing 
             // If someone adds a course that isn't in our list of data, it updates 3 lists. InitialiseData, CoursePreferences, and TotalCourses
-
+            if (!TotalCourses.Contains(preferredCourse))
+            {
+                CourseAndPreference tempAdd = new CourseAndPreference(preferredCourse, preferredRating);
+                CoursePreferences.Add(tempAdd);
+                //InitializeData.ListOfCourses.Add(tempAdd.course);
+                //TotalCourses.Add(preferredCourse);
+            }
 
             // I need to initialize CourseAndPreference with Every Course
             // then search that list and update the preference;
 
-
-            for (int i = 0; i < CoursePreferences.Count; i++)
+            else
             {
-                if (preferredCourse == CoursePreferences[i].course)
+                for (int i = 0; i < CoursePreferences.Count; i++) 
                 {
-                    CoursePreferences[i].preference = preferredRating;
-                    courseExists = true;
+                    if(preferredCourse == CoursePreferences[i].course)
+                    {
+                        CoursePreferences[i].preference = preferredRating;
+                    }
                 }
             }
-            if (!courseExists)
-            {
-                CourseAndPreference tempAdd = new CourseAndPreference(preferredCourse, preferredRating);
-                CoursePreferences.Add(tempAdd);
-                InitializeData.ListOfCourses.Add(tempAdd.course);
-                TotalCourses.Add(preferredCourse);
-            }
         }
-        public void AddAssignedCourse(Course freshCourse)
+        public void AddAssignedCourse(Course freshCourse) 
         {
             AssignedCourses.Add(freshCourse);
         }
@@ -66,18 +63,17 @@ namespace ScheduleOptimizer.Logic
         // Takes in a course and returns that course with the Professor's preference of it.
         public CourseAndPreference GetCourseAndPreference(Course QuerryCourse)
         {
-            // this if is my problem. It keeps adding courses when it shouldn't. 
-            //if (!TotalCourses.Contains(QuerryCourse))
-            //{
-            //    AddCoursePreference(QuerryCourse, 3); // 3 = default preference.
-            //}
-            CourseAndPreference Answer = CoursePreferences[0];
-            for (int i = 0; i < CoursePreferences.Count; i++)
+            if (!TotalCourses.Contains(QuerryCourse))
             {
-                if (CoursePreferences[i].course.CourseName == QuerryCourse.CourseName)
-                {
+                AddCoursePreference(QuerryCourse, 3); // 3 = default preference.
+            }
+            CourseAndPreference Answer = CoursePreferences[0];
+            for (int i = 0; i < CoursePreferences.Count; i++) 
+            {
+                if (CoursePreferences[i].course == QuerryCourse)
+                { 
                     Answer = CoursePreferences[i];
-                }
+                }  
             }
             return Answer;
         }
@@ -87,74 +83,28 @@ namespace ScheduleOptimizer.Logic
         public List<CourseProfessor> CalculateCourseProfessor()
         {
             List<CourseProfessor> assignedList = new List<CourseProfessor>();
-            List<Course> CourseList = new List<Course>();
-            int profCounter = 0;
-            CourseProfessor myCourseProfessor;
-
-
-            // now I have a copy of all the courses I need to assign
-            for (int i = 0; i < InitializeData.ListOfCourses.Count; i++)
+            for (int i = 0; i < InitializeData.ListOfCourses.Count; i++) 
             {
-                CourseList.Add(InitializeData.ListOfCourses[i]);
-            }
-
-            while (CourseList.Count >= 1)
-            {
-                Professor tempProf = InitializeData.ListOfProfessors[profCounter];
-
-                Course tempCourse = CourseList[0];
-                for (int k = 0; k < InitializeData.ListOfCourses.Count; k++)
+                Course disCourse = InitializeData.ListOfCourses[i];
+                Professor assignedProf = InitializeData.ListOfProfessors[0];
+                for (int j = 0; j < InitializeData.ListOfProfessors.Count; j++) 
                 {
-                    if (GetCourseAndPreference(CourseList[k]).preference > GetCourseAndPreference(tempCourse).preference)
+                    if (InitializeData.ListOfProfessors[j].GetCourseAndPreference(disCourse).preference > assignedProf.GetCourseAndPreference(disCourse).preference)
                     {
-                        tempCourse = CourseList[k];
+                        assignedProf = InitializeData.ListOfProfessors[j];
                     }
                 }
-                tempProf.AddAssignedCourse(tempCourse);
-                CourseList.Remove(tempCourse);
-                myCourseProfessor = new CourseProfessor(tempCourse, tempProf);
-                assignedList.Add(myCourseProfessor);
+                CourseProfessor AssignedCourseProf = new CourseProfessor(disCourse,assignedProf);
+                assignedList.Add(AssignedCourseProf);
 
-                profCounter++;
-                if (profCounter >= InitializeData.ListOfProfessors.Count) { profCounter = 0; }
             }
-
+            for (int i = 0; i<assignedList.Count; i++)
+            {
+                assignedList[i].professor.AddAssignedCourse(assignedList[i].course);
+            }
             return assignedList;
-
-
-            //for (int i = 0; i < InitializeData.ListOfCourses.Count; i++) 
-            //{
-            //    Course disCourse = InitializeData.ListOfCourses[i];
-            //    Professor assignedProf = InitializeData.ListOfProfessors[0];
-            //    for (int j = 0; j < InitializeData.ListOfProfessors.Count; j++) 
-            //    {
-            //        if (InitializeData.ListOfProfessors[j].GetCourseAndPreference(disCourse).preference > assignedProf.GetCourseAndPreference(disCourse).preference)
-            //        {
-            //            assignedProf = InitializeData.ListOfProfessors[j];
-            //        }
-            //    }
-            //    CourseProfessor AssignedCourseProf = new CourseProfessor(disCourse,assignedProf);
-            //    assignedList.Add(AssignedCourseProf);
-
-            //}
-            //for (int i = 0; i<assignedList.Count; i++)
-            //{
-            //    assignedList[i].professor.AddAssignedCourse(assignedList[i].course);
-            //}
-            //return assignedList;
-
-
-
         }
+        
+       
     }
 }
-// Calculate Course Professor
-// I'll want a copy of my List TotalCourses
-// copy of List Total Professors
-// copy of 
-
-// Take ListOfProfessors[i] and find his favorite course. Assign him to that course. Loop through all professors
-// and strike off the courses already assigned. 
-// Go one professor, GetCourseAndPreference with each course in the list, and assign him to his favorite.
-// remove that course from the list and repeat with next professor. 
-// Do this until ListOfCourses is empty. 
