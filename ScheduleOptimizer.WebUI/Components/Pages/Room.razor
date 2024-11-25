@@ -1,11 +1,21 @@
-﻿@page "/room"
+@page "/room"
 @using ScheduleOptimizer.Logic
-<PageTitle>Room</PageTitle>
+<PageTitle>Room Management</PageTitle>
 
 <h1>Room Management</h1>
 
-<button class="btn btn-primary" @onclick="PrintRooms">Print Rooms</button>
-<button class="btn btn-primary" @onclick="ClearRooms">Clear Rooms</button>
+<p>This is the Room Management page. You can add, remove, clear, or reinitialize rooms here!</p>
+
+
+<div style="margin-bottom: 20px;">
+    <button class="btn btn-primary" @onclick="AddRoom">Add Room</button>
+    <button style="background-color: #ff8800" class="btn btn-primary" @onclick="RemoveRoom">Remove Room</button>
+    <button style="background-color: #ff0000" class="btn btn-primary" @onclick="ClearRooms">Clear Rooms</button>
+    <button style="background-color: #00f800" class="btn btn-primary" @onclick="ReinitRooms"> Print Rooms</button>
+</div>
+
+<p>Total number of Rooms: @Logic.InitializeData.ListOfRooms.Count</p>
+
 
 <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
     <thead>
@@ -39,26 +49,31 @@
 </table>
 
 @code {
-    private void PrintRooms()
+    private void AddRoom()
     {
-<<<<<<< HEAD
-      
-=======
+        var newRoomNumber = InitializeData.ListOfRooms.Count + 130; // Example new room number logic
+        var newRoomType = RoomType.Normal; // Default to Normal type (adjust as needed)
 
->>>>>>> 9de41b09ce9e403eaa3dbc3d5e88aae7dc0b7182
-        InitializeData.BeginData();
+        // Add a new room to the ListOfRooms
+        InitializeData.ListOfRooms.Add(new Room(newRoomNumber, newRoomType));
+    }
+
+    private void RemoveRoom()
+    {
+        if (InitializeData.ListOfRooms.Count > 0)
+        {
+            // Remove the last room from the list
+            InitializeData.ListOfRooms.RemoveAt(InitializeData.ListOfRooms.Count - 1);
+        }
     }
 
     private void ClearRooms()
-<<<<<<< HEAD
     {
-    \
         InitializeData.ClearData();
     }
-}
-=======
-    {    
-        InitializeData.ClearData();
+
+    private void printRooms()
+    {
+        InitializeData.BeginData();
     }
 }
->>>>>>> 9de41b09ce9e403eaa3dbc3d5e88aae7dc0b7182
