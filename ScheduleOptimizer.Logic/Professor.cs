@@ -63,10 +63,10 @@ namespace ScheduleOptimizer.Logic
         // Takes in a course and returns that course with the Professor's preference of it.
         public CourseAndPreference GetCourseAndPreference(Course QuerryCourse)
         {
-            if (!TotalCourses.Contains(QuerryCourse))
-            {
-                AddCoursePreference(QuerryCourse, 3); // 3 = default preference.
-            }
+            //if (!TotalCourses.Contains(QuerryCourse))
+            //{
+            //    AddCoursePreference(QuerryCourse, 3); // 3 = default preference.
+            //}
             CourseAndPreference Answer = CoursePreferences[0];
             for (int i = 0; i < CoursePreferences.Count; i++) 
             {
@@ -83,25 +83,38 @@ namespace ScheduleOptimizer.Logic
         public List<CourseProfessor> CalculateCourseProfessor()
         {
             List<CourseProfessor> assignedList = new List<CourseProfessor>();
-            for (int i = 0; i < InitializeData.ListOfCourses.Count; i++) 
+
+            for (int i = 0; i < InitializeData.ListOfCourses.Count; i++)
             {
-                Course disCourse = InitializeData.ListOfCourses[i];
-                Professor assignedProf = InitializeData.ListOfProfessors[0];
-                for (int j = 0; j < InitializeData.ListOfProfessors.Count; j++) 
-                {
-                    if (InitializeData.ListOfProfessors[j].GetCourseAndPreference(disCourse).preference > assignedProf.GetCourseAndPreference(disCourse).preference)
-                    {
-                        assignedProf = InitializeData.ListOfProfessors[j];
-                    }
-                }
-                CourseProfessor AssignedCourseProf = new CourseProfessor(disCourse,assignedProf);
-                assignedList.Add(AssignedCourseProf);
+                int random = new Random().Next();
+                Course tempCourse = InitializeData.ListOfCourses[i];
+                Professor tempProf = InitializeData.ListOfProfessors[random % InitializeData.ListOfProfessors.Count];
+                CourseProfessor tempCourseProf = new CourseProfessor(tempCourse, tempProf );
+                assignedList.Add(tempCourseProf);
+                tempProf.AddAssignedCourse(tempCourse);
 
             }
-            for (int i = 0; i<assignedList.Count; i++)
-            {
-                assignedList[i].professor.AddAssignedCourse(assignedList[i].course);
-            }
+
+
+            //for (int i = 0; i < InitializeData.ListOfCourses.Count; i++)
+            //{
+            //    Course disCourse = InitializeData.ListOfCourses[i];
+            //    Professor assignedProf = InitializeData.ListOfProfessors[0];
+            //    for (int j = 0; j < InitializeData.ListOfProfessors.Count; j++)
+            //    {
+            //        if (InitializeData.ListOfProfessors[j].GetCourseAndPreference(disCourse).preference > assignedProf.GetCourseAndPreference(disCourse).preference)
+            //        {
+            //            assignedProf = InitializeData.ListOfProfessors[j];
+            //        }
+            //    }
+            //    CourseProfessor AssignedCourseProf = new CourseProfessor(disCourse, assignedProf);
+            //    assignedList.Add(AssignedCourseProf);
+
+            //}
+            //for (int i = 0; i < assignedList.Count; i++)
+            //{
+            //    assignedList[i].professor.AddAssignedCourse(assignedList[i].course);
+            //}
             return assignedList;
         }
         
