@@ -77,7 +77,7 @@ public static class InitializeData
         }
     }
 
-    private static RoomType ParseRoomType(string roomType)
+    public static RoomType ParseRoomType(string roomType)
     {
         switch (roomType)
         {
@@ -104,7 +104,8 @@ public static class InitializeData
         string[] parts = s.Split(',');
         string courseName = parts[0];
         int courseID = int.Parse(parts[1]);
-        return new(courseID,  courseName);
+        bool needLab = bool.Parse(parts[2].ToLower());
+        return new(courseID,  courseName, needLab);
     }
 
     private static Professor ParseProfessor(string s)
