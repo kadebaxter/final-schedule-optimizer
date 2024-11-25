@@ -1,37 +1,50 @@
 ﻿@page "/room"
 @using ScheduleOptimizer.Logic
-<PageTitle>Room</PageTitle>
+<PageTitle>Room Management</PageTitle>
 
 <h1>Room Management</h1>
 
-<button class="btn btn-primary" @onclick="PrintRooms">Print Rooms</button>
-@* <button class="btn btn-primary" @onclick="ClearRooms">Clear Rooms</button> *@
+<!-- Input Fields for Room Details -->
+<div style="margin-bottom: 20px;">
+    <input type="text" @bind="roomNumberString" placeholder="Room Number" class="form-control" style="display: inline-block; width: 200px; margin-right: 10px;" />
+    <input type="text" @bind="roomType" placeholder="Room Type ()" class="form-control" style="display: inline-block; width: 300px; margin-right: 10px;" />
+    @* <select @bind="isAvailable" class="form-control" style="display: inline-block; width: 150px;">
+        <option value="true">Available</option>
+        <option value="false">Occupied</option>
+    </select> *@
+</div>
 
-<table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+<!-- Action Buttons -->
+<div style="margin-bottom: 20px;">
+    <button class="btn btn-primary" @onclick="AddRoom">Add Room</button>
+    <button class="btn btn-warning" @onclick="RemoveRoom">Remove Room</button>
+    @* <button class="btn btn-danger" @onclick="ClearRooms">Clear Rooms</button> *@
+</div>
+
+<!-- Rooms Table -->
+<table class="table table-bordered table-striped">
     <thead>
-        <tr style="background-color: #333; color: #fff;">
-            <th style="padding: 8px; border: 1px solid #111;">Room Number</th>
-            <th style="padding: 8px; border: 1px solid #111;">Room Type</th>
-            <th style="padding: 8px; border: 1px solid #111;">Availability</th>
+        <tr>
+            <th>Room Number</th>
+            <th>Room Type</th>
+            <th>Availability</th>
         </tr>
     </thead>
     <tbody>
-        @for (int i = 0; i < InitializeData.ListOfRooms.Count(); i++)
+        @if (InitializeData.ListOfRooms.Count == 0)
         {
-            if (i % 2 == 1)
+            <tr>
+                <td colspan="3" class="text-center">No rooms available. Add a room to see it here.</td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var room in InitializeData.ListOfRooms)
             {
-                <tr style="background-color: #fff">
-                    <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfRooms[i].RoomNumber</td>
-                    <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfRooms[i].RoomType</td>
-                    <td style="padding: 8px; border: 1px solid #111;">@(InitializeData.ListOfRooms[i].IsAvailable ? "Available" : "Occupied")</td>
-                </tr>
-            }
-            else
-            {
-                <tr style="background-color: #ccc">
-                    <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfRooms[i].RoomNumber</td>
-                    <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfRooms[i].RoomType</td>
-                    <td style="padding: 8px; border: 1px solid #111;">@(InitializeData.ListOfRooms[i].IsAvailable ? "Available" : "Occupied")</td>
+                <tr>
+                    <td>@room.RoomNumber</td>
+                    <td>@room.RoomType</td>
+                    <td>@(room.IsAvailable ? "Available" : "Occupied")</td>
                 </tr>
             }
         }
@@ -39,14 +52,54 @@
 </table>
 
 @code {
-    private void PrintRooms()
-    {
+    private string roomNumberString = string.Empty;
+    private string roomType = string.Empty;
+    private bool isAvailable = true;
 
-        //InitializeData.BeginData();
+    private void AddRoom()
+    {
+        if (!string.IsNullOrWhiteSpace(roomNumberString) && !string.IsNullOrWhiteSpace(roomType))
+        {
+            int roomNum = int.Parse(roomNumberString);
+            Logic.Room newRoom = new Logic.Room
+                (
+                    roomNum,
+                    InitializeData.ParseRoomType(roomType.ToLower())
+                );
+
+            if (!InitializeData.ListOfRooms.Any(r => r.RoomNumber == roomNum))
+            {
+                InitializeData.ListOfRooms.Add(newRoom);
+            }
+
+            ResetFields();
+        }
+    }
+
+    private void RemoveRoom()
+    {
+        if (!string.IsNullOrWhiteSpace(roomNumberString))
+        {
+            int roomNum = int.Parse(roomNumberString);
+            var roomToRemove = InitializeData.ListOfRooms.FirstOrDefault(r => r.RoomNumber == roomNum);
+            if (roomToRemove != null)
+            {
+                InitializeData.ListOfRooms.Remove(roomToRemove);
+            }
+        }
+
+        ResetFields();
     }
 
     private void ClearRooms()
-    {    
-        //InitializeData.ClearData();
+    {
+        InitializeData.ListOfRooms.Clear();
+    }
+
+    private void ResetFields()
+    {
+        roomNumberString = string.Empty;
+        roomType = string.Empty;
+        isAvailable = true;
     }
 }
