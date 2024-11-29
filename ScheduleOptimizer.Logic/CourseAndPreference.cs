@@ -16,7 +16,7 @@ namespace ScheduleOptimizer.Logic
         public CourseAndPreference(Course disCourse)
         {
             course = disCourse;
-            preference = 3; // This is a neutral preference. 
+            preference = 3; // This is a neutral preference.  1 = do not like the class. 5 = love to teach it. 
         }
 
         public Course course { get; set; }
