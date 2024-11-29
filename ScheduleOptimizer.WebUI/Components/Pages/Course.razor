@@ -32,7 +32,8 @@
             <td style="padding: 8px; border: 1px solid #111;">@(InitializeData.ListOfCourses[i].NeedsLab ? "Yes" : "No")</td>
         </tr>
     }
-    else {
+    else
+    {
         <tr style="background-color: #888">
             <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfCourses[i].CourseId</td>
             <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfCourses[i].CourseName</td>
@@ -48,35 +49,50 @@
     private string description;
     private string needsLab;
     private bool lab;
+    private int minimumCourseNameLength = 3;
+
     private void PrintCourses()
     {
-        //InitializeData.BeginData();
+
     }
-    private void AddCourse(){
+    private void AddCourse()
+    {
         // add course here.
-        if(needsLab == "yes" ||needsLab== "Yes" || needsLab == "YES" || needsLab == "y" || needsLab == "Y"){
-            lab = true;
-            Logic.Course addingCourse = new Logic.Course(int.Parse(courseID), courseName, lab);
+        needsLab = needsLab.ToLower();
 
-            if(description != "")
-            {
-                addingCourse.Description = description;
-            }
-            InitializeData.ListOfCourses.Add(addingCourse);
+        // this checks if you put in something long enough to be valid into the textboxes
+        if (courseName.Length >= minimumCourseNameLength && courseID.Length >= minimumCourseNameLength)
+        {
 
-        }
-        else{
-            Logic.Course addingCourse = new Logic.Course(int.Parse(courseID), courseName);
-            if(description != "")
+            if (needsLab == "yes" || needsLab == "y")
             {
-                addingCourse.Description = description;
+                lab = true;
+                Logic.Course addingCourse = new Logic.Course(int.Parse(courseID), courseName, lab);
+
+                if (description != "")
+                {
+                    addingCourse.Description = description;
+                }
+                InitializeData.ListOfCourses.Add(addingCourse);
+
             }
-            InitializeData.ListOfCourses.Add(addingCourse);
+            else
+            {
+                Logic.Course addingCourse = new Logic.Course(int.Parse(courseID), courseName);
+                if (description != "")
+                {
+                    addingCourse.Description = description;
+                }
+                InitializeData.ListOfCourses.Add(addingCourse);
+            }
+
+            courseName = string.Empty; courseID = string.Empty; description = string.Empty; needsLab = string.Empty;
         }
-        courseName = string.Empty; courseID = string.Empty; description = string.Empty; needsLab = string.Empty;
+
     }
-    private void RemoveCourse(){
-        if(courseID != "")
+    private void RemoveCourse()
+    {
+        if (courseID != "")
         {
             for (int i = 0; i < Logic.InitializeData.ListOfCourses.Count; i++)
             {
@@ -87,7 +103,7 @@
                 }
             }
         }
-        else if(courseName != "")
+        else if (courseName != "")
         {
             for (int i = 0; i < Logic.InitializeData.ListOfCourses.Count; i++)
             {
