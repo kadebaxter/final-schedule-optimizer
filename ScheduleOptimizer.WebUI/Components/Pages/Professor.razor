@@ -6,22 +6,21 @@
 
 
 <PageTitle>Professor</PageTitle>
-
 <h1>Professor</h1>
 
 <p>This is our Professor page. It will eventually be able to add new profesors and a few other fun things as well!'</p>
 
 <input type="text" @bind="profName" placeholder="Professor's Name" />
 
-<button class="btn btn-primary" @onclick="AddProf">Add Professor</button>
+<button style="background-color: #00FF00" class="btn btn-primary" @onclick="AddProf">Add Professor</button>
 
 
-<button style="background-color: #ff8800" class="btn btn-primary" @onclick="RemoveProfessor">Remove Professor</button>
+<button style="background-color: #FF0000" class="btn btn-primary" @onclick="RemoveProfessor">Remove Professor</button>
 
 
 @* <button style="background-color: #ff0000" class="btn btn-primary" @onclick="ClearProfessors">Clear List of Professors</button> *@
 
-<button style="background-color: #00f800" class="btn btn-primary" @onclick="ReinitProf">Reinitialize Professors</button>
+
 
 <p>Total number of Professors: @Logic.InitializeData.ListOfProfessors.Count</p>
 
@@ -74,10 +73,8 @@
     {
         Logic.InitializeData.ClearData();
     }
-    private void ReinitProf()
-    {
-        //Logic.InitializeData.BeginData();
-    }
+   
+    
     private void AddProf() {
 
         //Add the professor here using the string profName
