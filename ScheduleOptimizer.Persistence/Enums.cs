@@ -28,3 +28,22 @@ public enum WeekDay
     Thursday = 5,
     Friday = 6,
 }
+
+public enum CourseTimes
+{
+    MWF730,
+    MWF830,
+    MWF930,
+    MWF1030,
+    MWF1130,
+    MWF1230,
+    MWF130,
+    MWF230,
+    MWF330,
+    MWF430,
+    TTh730,
+    TTh930,
+    TTh1130,
+    TTh130,
+    TTh330
+}
