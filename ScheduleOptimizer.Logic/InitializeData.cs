@@ -154,8 +154,6 @@ public static class InitializeData
         return professor;
     }
 
-    //sb.AppendLine($"{scheduledCourse.professor.Name},{scheduledCourse.course.CourseName},{scheduledCourse.course.CourseId}," +
-    //            $"{scheduledCourse.course.NeedsLab},{scheduledCourse.room.RoomNumber},{scheduledCourse.room.RoomType.ToString()},{scheduledCourse.date.ToString()}")
     private static ScheduledCourse ParseScheduledCourse(string s)
     {
         string[] parts = s.Split(",");
