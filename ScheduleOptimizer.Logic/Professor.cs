@@ -61,16 +61,15 @@ namespace ScheduleOptimizer.Logic
         }
 
         // Takes in a course and returns that course with the Professor's preference of it.
+        // IMPORTANT: FINDS COURSE BASED ON NAME.
+        // also this method could return a null value if what you're looking for isn't found in the list :)
         public CourseAndPreference GetCourseAndPreference(Course QuerryCourse)
         {
-            //if (!TotalCourses.Contains(QuerryCourse))
-            //{
-            //    AddCoursePreference(QuerryCourse, 3); // 3 = default preference.
-            //}
-            CourseAndPreference Answer = CoursePreferences[0];
+            CourseAndPreference Answer = null;
+            //CourseAndPreference Answer = CoursePreferences[0];
             for (int i = 0; i < CoursePreferences.Count; i++) 
             {
-                if (CoursePreferences[i].course == QuerryCourse)
+                if (CoursePreferences[i].course.CourseName == QuerryCourse.CourseName)
                 { 
                     Answer = CoursePreferences[i];
                 }  
@@ -83,38 +82,32 @@ namespace ScheduleOptimizer.Logic
         public List<CourseProfessor> CalculateCourseProfessor()
         {
             List<CourseProfessor> assignedList = new List<CourseProfessor>();
+            List<Course> unassignedCourses = new List<Course>();
 
-            for (int i = 0; i < InitializeData.ListOfCourses.Count; i++)
+            for (int i = 0; i< InitializeData.ListOfCourses.Count; i++)// create list of unassigned courses
             {
-                int random = new Random().Next();
-                Course tempCourse = InitializeData.ListOfCourses[i];
-                Professor tempProf = InitializeData.ListOfProfessors[random % InitializeData.ListOfProfessors.Count];
-                CourseProfessor tempCourseProf = new CourseProfessor(tempCourse, tempProf );
-                assignedList.Add(tempCourseProf);
-                tempProf.AddAssignedCourse(tempCourse);
-
+                unassignedCourses.Add(InitializeData.ListOfCourses[i]);
             }
 
+            for(int i = 0; i<InitializeData.ListOfCourses.Count; i++)// assign each course
+            {
+                int profIndex = i%InitializeData.ListOfProfessors.Count;// now I loop through professors evenly
+                Course currentCourse = unassignedCourses[0];
+                Professor currentProf = InitializeData.ListOfProfessors[profIndex];
 
-            //for (int i = 0; i < InitializeData.ListOfCourses.Count; i++)
-            //{
-            //    Course disCourse = InitializeData.ListOfCourses[i];
-            //    Professor assignedProf = InitializeData.ListOfProfessors[0];
-            //    for (int j = 0; j < InitializeData.ListOfProfessors.Count; j++)
-            //    {
-            //        if (InitializeData.ListOfProfessors[j].GetCourseAndPreference(disCourse).preference > assignedProf.GetCourseAndPreference(disCourse).preference)
-            //        {
-            //            assignedProf = InitializeData.ListOfProfessors[j];
-            //        }
-            //    }
-            //    CourseProfessor AssignedCourseProf = new CourseProfessor(disCourse, assignedProf);
-            //    assignedList.Add(AssignedCourseProf);
-
-            //}
-            //for (int i = 0; i < assignedList.Count; i++)
-            //{
-            //    assignedList[i].professor.AddAssignedCourse(assignedList[i].course);
-            //}
+                // find the professor's favorite course
+                for(int j = 0; j<unassignedCourses.Count; j++)
+                {
+                    if(currentProf.GetCourseAndPreference(currentCourse).preference < currentProf.GetCourseAndPreference(unassignedCourses[j]).preference)
+                    {
+                        currentCourse = unassignedCourses[j];
+                    }
+                }
+                // assign professor to the course
+                assignedList.Add(new CourseProfessor(currentCourse, currentProf));
+                currentProf.AssignedCourses.Add(currentCourse);
+                unassignedCourses.Remove(currentCourse);
+            }
             return assignedList;
         }
         
