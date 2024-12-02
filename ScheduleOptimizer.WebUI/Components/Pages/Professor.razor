@@ -12,7 +12,7 @@
 
 <input type="text" @bind="profName" placeholder="Professor's Name" />
 
-<button style="background-color: #00FF00" class="btn btn-primary" @onclick="AddProf">Add Professor</button>
+<button style="background-color: #008000" class="btn btn-primary" @onclick="AddProf">Add Professor</button>
 
 
 <button style="background-color: #FF0000" class="btn btn-primary" @onclick="RemoveProfessor">Remove Professor</button>
@@ -66,6 +66,7 @@
 
     private string profName;
     private string feedback;
+    private static int minimumNameLength = 3;
     private int length = Logic.InitializeData.ListOfProfessors.Count;
 
 
@@ -78,16 +79,19 @@
     private void AddProf() {
 
         //Add the professor here using the string profName
-        // <p>Added A Professor, you tried.</p>
-        Logic.Professor prof = new Logic.Professor(profName);
-        profName = string.Empty;
-        InitializeData.ListOfProfessors.Add(prof);
+        if(profName.Length >= minimumNameLength)// protects against empty adding or adding a space bar as a name.
+        {
+            Logic.Professor prof = new Logic.Professor(profName);
+            profName = string.Empty;
+            InitializeData.ListOfProfessors.Add(prof);
+        }
         // prof.AddAProfessorToInitData(prof);
 
         feedback = ($"You added {Logic.InitializeData.ListOfProfessors[Logic.InitializeData.ListOfProfessors.Count - 1].Name} to the list of professors!");
 
     }
     private void RemoveProfessor(){
+
         for(int i = 0; i<Logic.InitializeData.ListOfProfessors.Count; i++){
             if(Logic.InitializeData.ListOfProfessors[i].Name == profName){
                 Logic.InitializeData.ListOfProfessors.Remove(Logic.InitializeData.ListOfProfessors[i]);
