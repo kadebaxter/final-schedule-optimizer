@@ -12,7 +12,7 @@ namespace ScheduleOptimizer.Logic
         private Semester _semester;
         private int _numOfClasses;
         private List<Course> _listOfCourses;
-        private List<AvailableTimes> _availableTimes = new();
+        private List<CourseTimes> _availableTimes = new();
         private List<WeekDay> _weekDays = [WeekDay.Monday, WeekDay.Tuesday, WeekDay.Wednesday, WeekDay.Thursday, WeekDay.Friday];
 
         public Scheduling(Semester semester, int numOfClasses, List<Course> listOfCourses)
@@ -26,24 +26,25 @@ namespace ScheduleOptimizer.Logic
         public int NumOfClasses { get => _numOfClasses; set => _numOfClasses = value; }
         public List<Course> ListOfCourses1 { get => _listOfCourses; set => _listOfCourses = value; }
 
-        private List<AvailableTimes> SetTimes(List<int> times)
+        private List<CourseTimes> SetTimes()
         {
-            List<AvailableTimes> timesToReturn = new();
-            foreach (int time in times)
-            {
-                foreach (WeekDay day in _weekDays)
-                {
-                    if (time.ToString().Count() == 3)
-                    {
-                        timesToReturn.Add(new(new(new(2024, 12, (int)day), TimeOnly.Parse(time.ToString().Insert(1, ":").Insert(4, ":00")))));
-                    }
-                    else
-                    {
-                        timesToReturn.Add(new(new(new(2024, 12, (int)day), TimeOnly.Parse(time.ToString().Insert(2, ":").Insert(5, ":00")))));
+            List<CourseTimes> timesToReturn = new();
+            timesToReturn.Add(CourseTimes.MWF730);
+            timesToReturn.Add(CourseTimes.MWF830);
+            timesToReturn.Add(CourseTimes.MWF930);
+            timesToReturn.Add(CourseTimes.MWF1030);
+            timesToReturn.Add(CourseTimes.MWF1130);
+            timesToReturn.Add(CourseTimes.MWF1230);
+            timesToReturn.Add(CourseTimes.MWF130);
+            timesToReturn.Add(CourseTimes.MWF230);
+            timesToReturn.Add(CourseTimes.MWF330);
+            timesToReturn.Add(CourseTimes.TTh730);
+            timesToReturn.Add(CourseTimes.TTh930);
+            timesToReturn.Add(CourseTimes.TTh1130);
+            timesToReturn.Add(CourseTimes.TTh130);
+            timesToReturn.Add(CourseTimes.TTh330);
 
-                    }
-                }
-            }
+
             return timesToReturn;
         }
 
@@ -59,10 +60,10 @@ namespace ScheduleOptimizer.Logic
             return new($"{name} Created");
         }
 
-        public Dictionary<(DateTime, Course), ScheduledCourse> GenerateSchedule(List<CourseRoom> courseRooms, List<CourseProfessor> professorCourses)
+        public Dictionary<(CourseTimes, Course), ScheduledCourse> GenerateSchedule(List<CourseRoom> courseRooms, List<CourseProfessor> professorCourses)
         {
-            Dictionary<(DateTime, Course), ScheduledCourse> scheduledCourseList = new();
-            _availableTimes = SetTimes([730, 830, 930, 1030, 1130, 1230, 130, 230, 330, 430]);
+            Dictionary<(CourseTimes, Course), ScheduledCourse> scheduledCourseList = new();
+            _availableTimes = SetTimes();
             Random random = new Random();
             List<int> randomNumbersList = new();
             for (int i = 0; i < courseRooms.Count(); i++)
@@ -76,10 +77,10 @@ namespace ScheduleOptimizer.Logic
                     }
                 }
                 randomNumbersList.Add(newRandomNumber);
-                scheduledCourseList.Add((_availableTimes[newRandomNumber].date, courseRooms[i].Course),
+                scheduledCourseList.Add((_availableTimes[newRandomNumber], courseRooms[i].Course),
                     new(courseRooms[i].Course,
                     ReturnProfessorGivenName(courseRooms[i].Course.CourseName, professorCourses),
-                    courseRooms[i].Rooms[random.Next(0, courseRooms[i].Rooms.Count() - 1)], _availableTimes[newRandomNumber].date));
+                    courseRooms[i].Rooms[random.Next(0, courseRooms[i].Rooms.Count() - 1)], _availableTimes[newRandomNumber]));
             }
             return scheduledCourseList;
         }

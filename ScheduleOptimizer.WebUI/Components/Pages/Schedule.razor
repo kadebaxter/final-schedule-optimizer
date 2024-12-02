@@ -36,8 +36,8 @@
     if (i % 2 == 1)
     {
         <tr style="background-color: #fff">
-            <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfScheduledCourses[i].date.DayOfWeek</td>
-            <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfScheduledCourses[i].date.Hour:@InitializeData.ListOfScheduledCourses[i].date.Minute</td>
+            @* <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfScheduledCourses[i].date.DayOfWeek</td>
+            <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfScheduledCourses[i].date.Hour:@InitializeData.ListOfScheduledCourses[i].date.Minute</td> *@
             <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfScheduledCourses[i].course.CourseName</td>
             <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfScheduledCourses[i].room.RoomNumber</td>
             <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfScheduledCourses[i].professor.Name</td>
@@ -46,8 +46,8 @@
     else
     {
         <tr style="background-color: #ccc">
-            <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfScheduledCourses[i].date.DayOfWeek</td>
-            <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfScheduledCourses[i].date.Hour:@InitializeData.ListOfScheduledCourses[i].date.Minute</td>
+           @*  <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfScheduledCourses[i].date.DayOfWeek</td>
+            <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfScheduledCourses[i].date.Hour:@InitializeData.ListOfScheduledCourses[i].date.Minute</td> *@
             <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfScheduledCourses[i].course.CourseName</td>
             <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfScheduledCourses[i].room.RoomNumber</td>
             <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfScheduledCourses[i].professor.Name</td>
@@ -56,7 +56,7 @@
 }
 
 @code {
-    public Dictionary<(DateTime, ScheduleOptimizer.Logic.Course), ScheduledCourse> finalSchedule = new();
+    public Dictionary<(ScheduleOptimizer.Persistence.CourseTimes, ScheduleOptimizer.Logic.Course), ScheduledCourse> finalSchedule = new();
     public int day = 0;
 
     public void SomeFunction()
