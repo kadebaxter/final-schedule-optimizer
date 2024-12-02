@@ -11,9 +11,9 @@ namespace ScheduleOptimizer.Logic
         public readonly Course course;
         public readonly Professor professor;
         public readonly Room room;
-        public readonly DateTime date;
+        public readonly Persistence.CourseTimes date;
 
-        public ScheduledCourse(Course course, Professor professor, Room room, DateTime date)
+        public ScheduledCourse(Course course, Professor professor, Room room, Persistence.CourseTimes date)
         {
             this.course = course;
             this.professor = professor;
