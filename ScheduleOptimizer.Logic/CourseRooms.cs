@@ -8,6 +8,5 @@ public class CourseRoom
     {
         Course = course;
         Rooms = rooms;
-
     }
 }
