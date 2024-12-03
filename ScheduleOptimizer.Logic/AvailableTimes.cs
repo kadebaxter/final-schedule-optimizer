@@ -7,14 +7,15 @@ using System.Threading.Tasks;
 
 namespace ScheduleOptimizer.Logic
 {
-    internal class AvailableTimes
+    public class AvailableTimes
     {
-        public readonly DateTime date;
+        public readonly CourseDays day;
+        public readonly int time;
 
-        public AvailableTimes(DateTime classTime)
+        public AvailableTimes(CourseDays day, int time)
         {
-            
-            date = classTime;
+            this.time = time;
+            this.day = day;
         }
     }
 }

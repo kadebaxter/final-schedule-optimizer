@@ -92,40 +92,14 @@ public static class InitializeData
         }
     }
 
-    public static CourseTimes ParseCourseTimes(string courseTime)
+    public static CourseDays ParseCourseTimes(string courseTime)
     {
         switch (courseTime)
         {
-            case "MWF730":
-                return CourseTimes.MWF730;
-            case "MWF830":
-                return CourseTimes.MWF830;
-            case "MWF930":
-                return CourseTimes.MWF930;
-            case "MWF1030":
-                return CourseTimes.MWF1030;
-            case "MWF1130":
-                return CourseTimes.MWF1130;
-            case "MWF1230":
-                return CourseTimes.MWF1230;
-            case "MWF130":
-                return CourseTimes.MWF130;
-            case "MWF230":
-                return CourseTimes.MWF230;
-            case "MWF330":
-                return CourseTimes.MWF330;
-            case "MWF430":
-                return CourseTimes.MWF430;
-            case "TTh730":
-                return CourseTimes.TTh730;
-            case "TTh930":
-                return CourseTimes.TTh930;
-            case "TTh1130":
-                return CourseTimes.TTh1130;
-            case "TTh130":
-                return CourseTimes.TTh130;
-            case "TTh330":
-                return CourseTimes.TTh330;
+            case "MWF":
+                return CourseDays.MWF;
+            case "TTh":
+                return CourseDays.TTh;
             default:
                 throw new Exception("Didn't have the correct room type in file input.");
         }
@@ -177,7 +151,8 @@ public static class InitializeData
             if ((room.RoomNumber == int.Parse(parts[4])) && (room.RoomType == ParseRoomType(parts[5])))
                 schRm = room;
         }
-        return new(schCrs, schCrsPro, schRm, ParseCourseTimes(parts[6]));
+
+        return new(schCrs, schCrsPro, schRm, ParseCourseTimes(parts[6]), int.Parse(parts[7]));
     }
 
     private static string RoomsToText(List<Room> roomsList)
@@ -216,7 +191,7 @@ public static class InitializeData
         foreach (var scheduledCourse in listOfScheduledCourses)
         {
             sb.AppendLine($"{scheduledCourse.professor.Name},{scheduledCourse.course.CourseName},{scheduledCourse.course.CourseId}," +
-                $"{scheduledCourse.course.NeedsLab},{scheduledCourse.room.RoomNumber},{scheduledCourse.room.RoomType.ToString().ToLower()},{scheduledCourse.date.ToString()}");
+                $"{scheduledCourse.course.NeedsLab},{scheduledCourse.room.RoomNumber},{scheduledCourse.room.RoomType.ToString().ToLower()},{scheduledCourse.date.ToString()},{scheduledCourse.time.ToString()}");
             //sb.AppendLine("Is this thing working");
         }
         return sb.ToString();

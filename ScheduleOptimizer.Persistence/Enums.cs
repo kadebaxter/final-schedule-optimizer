@@ -29,6 +29,12 @@ public enum WeekDay
     Friday = 6,
 }
 
+public enum CourseDays
+{
+    MWF, TTh
+}
+
+
 public enum CourseTimes
 {
     MWF730,
