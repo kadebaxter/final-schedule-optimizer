@@ -12,7 +12,6 @@
 
 <button style="background-color: #008000" class="btn btn-primary" @onclick="AddCourse">Add Course</button>
 <button class="btn btn-primary" style="background-color: #FF0000" @onclick="RemoveCourse">Remove Course</button>
-@* <button class="btn btn-primary" style="background-color: #ff0000" @onclick="ClearCourses">Clear Courses</button> *@
 
 <tr style="background-color: #fff">
     <td style="padding: 8px; border: 1px solid #111;">Course ID</td>
@@ -78,6 +77,7 @@
                 addingCourse.Description = description;
             }
             InitializeData.ListOfCourses.Add(addingCourse);
+            InitializeData.SaveData();
 
         }
         else{
@@ -87,6 +87,7 @@
                 addingCourse.Description = description;
             }
             InitializeData.ListOfCourses.Add(addingCourse);
+            InitializeData.SaveData();
         }
         courseName = string.Empty; courseID = string.Empty; description = string.Empty; needsLab = string.Empty;
     }
@@ -101,6 +102,7 @@
                     if (Logic.InitializeData.ListOfCourses[i].CourseId == parsedCourseID)
                     {
                         Logic.InitializeData.ListOfCourses.RemoveAt(i);
+                        InitializeData.SaveData();
                         return; // Exit after removing the course
                     }
             }
@@ -112,16 +114,12 @@
                 if (Logic.InitializeData.ListOfCourses[i].CourseName == courseName)
                 {
                     Logic.InitializeData.ListOfCourses.Remove(InitializeData.ListOfCourses[i]);
+                    InitializeData.SaveData();
                     break;
                 }
             }
 
         }
         courseName = string.Empty; courseID = string.Empty; description = string.Empty; needsLab = string.Empty;
-    }
-
-    private void ClearCourses()
-    {
-        InitializeData.ClearData();
     }
 }
