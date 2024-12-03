@@ -1,10 +1,10 @@
-John,IntroSE,1574,False,125,normal,MWF330
-Craig,Computer Organization and Architecture,3374,False,125,normal,TTh930
-John,Statistics for Scientists and Engineers,3375,False,123,normal,TTh730
-John,Discrete Math,2555,False,123,normal,TTh130
-Garth,Biology 1610,2303,False,123,normal,MWF1230
-John,English 1010,2252,False,124,normal,MWF230
-Garth,Programming Fundamentals,1576,False,125,normal,MWF1030
-Craig,Programming Fundamentals Lab,1079,True,12999,lab,MWF1130
-Craig,User Experience Design,2076,True,12999,lab,TTh130
-Heber,Digital Circuits,1565,False,124,normal,MWF130
+John,IntroSE,1574,False,124,normal,MWF,330
+Garth,Computer Organization and Architecture,3374,False,125,normal,MWF,1130
+Heber,Statistics for Scientists and Engineers,3375,False,124,normal,TTh,730
+Garth,Discrete Math,2555,False,123,normal,MWF,430
+Heber,Biology 1610,2303,False,123,normal,TTh,130
+John,English 1010,2252,False,125,normal,MWF,730
+Bob,Programming Fundamentals,1576,False,123,normal,MWF,830
+Craig,Programming Fundamentals Lab,1079,True,12999,lab,TTh,1130
+Craig,User Experience Design,2076,True,12999,lab,MWF,930
+Bob,Digital Circuits,1565,False,124,normal,MWF,230

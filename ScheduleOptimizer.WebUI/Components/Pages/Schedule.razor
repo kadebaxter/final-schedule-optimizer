@@ -12,7 +12,7 @@
 
 <tr style="background-color: #fff">
     <td style="padding: 8px; border: 1px solid #111;">Day</td>
-    @* <td style="padding: 8px; border: 1px solid #111;">Time</td> *@
+    <td style="padding: 8px; border: 1px solid #111;">Time</td>
     <td style="padding: 8px; border: 1px solid #111;">Course Name</td>
     <td style="padding: 8px; border: 1px solid #111;">Room Number</td>
     <td style="padding: 8px; border: 1px solid #111;">Professor</td>
@@ -39,6 +39,7 @@
             @* <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfScheduledCourses[i].date.DayOfWeek</td>
             <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfScheduledCourses[i].date.Hour:@InitializeData.ListOfScheduledCourses[i].date.Minute</td> *@
             <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfScheduledCourses[i].date</td>
+            <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfScheduledCourses[i].time</td>
             <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfScheduledCourses[i].course.CourseName</td>
             <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfScheduledCourses[i].room.RoomNumber</td>
             <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfScheduledCourses[i].professor.Name</td>
@@ -50,6 +51,7 @@
            @*  <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfScheduledCourses[i].date.DayOfWeek</td>
             <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfScheduledCourses[i].date.Hour:@InitializeData.ListOfScheduledCourses[i].date.Minute</td> *@
             <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfScheduledCourses[i].date</td>
+            <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfScheduledCourses[i].time</td>
             <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfScheduledCourses[i].course.CourseName</td>
             <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfScheduledCourses[i].room.RoomNumber</td>
             <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfScheduledCourses[i].professor.Name</td>
@@ -58,7 +60,7 @@
 }
 
 @code {
-    public Dictionary<(ScheduleOptimizer.Persistence.CourseTimes, ScheduleOptimizer.Logic.Course), ScheduledCourse> finalSchedule = new();
+    public Dictionary<(ScheduleOptimizer.Logic.AvailableTimes, ScheduleOptimizer.Logic.Course), ScheduledCourse> finalSchedule = new();
     public int day = 0;
 
     public void SomeFunction()
