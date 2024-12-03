@@ -74,8 +74,8 @@
     {
         Logic.InitializeData.ClearData();
     }
-   
-    
+
+
     private void AddProf() {
 
         //Add the professor here using the string profName
@@ -84,6 +84,7 @@
             Logic.Professor prof = new Logic.Professor(profName);
             profName = string.Empty;
             InitializeData.ListOfProfessors.Add(prof);
+            InitializeData.SaveData();
         }
         // prof.AddAProfessorToInitData(prof);
 
@@ -95,6 +96,7 @@
         for(int i = 0; i<Logic.InitializeData.ListOfProfessors.Count; i++){
             if(Logic.InitializeData.ListOfProfessors[i].Name == profName){
                 Logic.InitializeData.ListOfProfessors.Remove(Logic.InitializeData.ListOfProfessors[i]);
+                InitializeData.SaveData();
                 profName = string.Empty;
                 break;
             }

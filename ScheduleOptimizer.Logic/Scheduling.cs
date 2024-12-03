@@ -26,24 +26,25 @@ namespace ScheduleOptimizer.Logic
         public int NumOfClasses { get => _numOfClasses; set => _numOfClasses = value; }
         public List<Course> ListOfCourses1 { get => _listOfCourses; set => _listOfCourses = value; }
 
-        private List<AvailableTimes> SetTimes(List<int> times)
+        private List<AvailableTimes> SetTimes()
         {
             List<AvailableTimes> timesToReturn = new();
-            foreach (int time in times)
-            {
-                foreach (WeekDay day in _weekDays)
-                {
-                    if (time.ToString().Count() == 3)
-                    {
-                        timesToReturn.Add(new(new(new(2024, 12, (int)day), TimeOnly.Parse(time.ToString().Insert(1, ":").Insert(4, ":00")))));
-                    }
-                    else
-                    {
-                        timesToReturn.Add(new(new(new(2024, 12, (int)day), TimeOnly.Parse(time.ToString().Insert(2, ":").Insert(5, ":00")))));
+            timesToReturn.Add(new(CourseDays.MWF, 730));
+            timesToReturn.Add(new(CourseDays.MWF, 830));
+            timesToReturn.Add(new(CourseDays.MWF, 930));
+            timesToReturn.Add(new(CourseDays.MWF, 1030));
+            timesToReturn.Add(new(CourseDays.MWF, 1130));
+            timesToReturn.Add(new(CourseDays.MWF, 1230));
+            timesToReturn.Add(new(CourseDays.MWF, 130));
+            timesToReturn.Add(new(CourseDays.MWF, 230));
+            timesToReturn.Add(new(CourseDays.MWF, 330));
+            timesToReturn.Add(new(CourseDays.MWF, 430));
+            timesToReturn.Add(new(CourseDays.TTh, 730));
+            timesToReturn.Add(new(CourseDays.TTh, 930));
+            timesToReturn.Add(new(CourseDays.TTh, 1130));
+            timesToReturn.Add(new(CourseDays.TTh, 130));
+            timesToReturn.Add(new(CourseDays.TTh, 330));
 
-                    }
-                }
-            }
             return timesToReturn;
         }
 
@@ -59,10 +60,10 @@ namespace ScheduleOptimizer.Logic
             return new($"{name} Created");
         }
 
-        public Dictionary<(DateTime, Course), ScheduledCourse> GenerateSchedule(List<CourseRoom> courseRooms, List<CourseProfessor> professorCourses)
+        public Dictionary<(AvailableTimes, Course), ScheduledCourse> GenerateSchedule(List<CourseRoom> courseRooms, List<CourseProfessor> professorCourses)
         {
-            Dictionary<(DateTime, Course), ScheduledCourse> scheduledCourseList = new();
-            _availableTimes = SetTimes([730, 830, 930, 1030, 1130, 1230, 130, 230, 330, 430]);
+            Dictionary<(AvailableTimes, Course), ScheduledCourse> scheduledCourseList = new();
+            _availableTimes = SetTimes();
             Random random = new Random();
             List<int> randomNumbersList = new();
             for (int i = 0; i < courseRooms.Count(); i++)
@@ -76,10 +77,10 @@ namespace ScheduleOptimizer.Logic
                     }
                 }
                 randomNumbersList.Add(newRandomNumber);
-                scheduledCourseList.Add((_availableTimes[newRandomNumber].date, courseRooms[i].Course),
+                scheduledCourseList.Add((_availableTimes[newRandomNumber], courseRooms[i].Course),
                     new(courseRooms[i].Course,
                     ReturnProfessorGivenName(courseRooms[i].Course.CourseName, professorCourses),
-                    courseRooms[i].Rooms[random.Next(0, courseRooms[i].Rooms.Count() - 1)], _availableTimes[newRandomNumber].date));
+                    courseRooms[i].Rooms[random.Next(0, courseRooms[i].Rooms.Count() - 1)], _availableTimes[newRandomNumber].day, _availableTimes[newRandomNumber].time));
             }
             return scheduledCourseList;
         }

@@ -12,7 +12,6 @@
 
 <button style="background-color: #008000" class="btn btn-primary" @onclick="AddCourse">Add Course</button>
 <button class="btn btn-primary" style="background-color: #FF0000" @onclick="RemoveCourse">Remove Course</button>
-@* <button class="btn btn-primary" style="background-color: #ff0000" @onclick="ClearCourses">Clear Courses</button> *@
 
 <tr style="background-color: #fff">
     <td style="padding: 8px; border: 1px solid #111;">Course ID</td>
@@ -44,7 +43,6 @@
 @code {
     private string courseName;
     private string courseID;
-        private int coursePref = 3;
     private string description;
     private string needsLab;
     private bool lab;
@@ -53,16 +51,23 @@
         //InitializeData.BeginData();
     }
     private void AddCourse(){
-        needsLab = needsLab.ToLower();
-
+        
         if (courseID == null || courseID == "" || !int.TryParse(courseID, out int parsedCourseID))
-        { return; }
+        {
+            return; 
+        }
 
-        if (courseName == null || courseName == "") { return; }
+        
+        if (courseName == null || courseName == "")
+        {
+            return; 
+        }
 
         // Default needsLab to "no" if it is null or empty
-        if (needsLab == null || needsLab == "") { needsLab = "no";}
-
+        if (needsLab == null || needsLab == "")
+        {
+            needsLab = "no";
+        }
         if(needsLab == "yes" ||needsLab== "Yes" || needsLab == "YES" || needsLab == "y" || needsLab == "Y"){
             lab = true;
             Logic.Course addingCourse = new Logic.Course(int.Parse(courseID), courseName, lab);
@@ -72,11 +77,7 @@
                 addingCourse.Description = description;
             }
             InitializeData.ListOfCourses.Add(addingCourse);
-            for (int i = 0; i < InitializeData.ListOfProfessors.Count; i++)
-            {
-                InitializeData.ListOfProfessors[i].TotalCourses.Add(addingCourse);
-                InitializeData.ListOfProfessors[i].AddCoursePreference(addingCourse, coursePref);
-            }
+            InitializeData.SaveData();
 
         }
         else{
@@ -86,10 +87,7 @@
                 addingCourse.Description = description;
             }
             InitializeData.ListOfCourses.Add(addingCourse);
-            for(int i = 0; i<InitializeData.ListOfProfessors.Count; i++){
-                InitializeData.ListOfProfessors[i].TotalCourses.Add(addingCourse);
-                InitializeData.ListOfProfessors[i].AddCoursePreference(addingCourse, coursePref);
-            }
+            InitializeData.SaveData();
         }
         courseName = string.Empty; courseID = string.Empty; description = string.Empty; needsLab = string.Empty;
     }
@@ -104,6 +102,7 @@
                     if (Logic.InitializeData.ListOfCourses[i].CourseId == parsedCourseID)
                     {
                         Logic.InitializeData.ListOfCourses.RemoveAt(i);
+                        InitializeData.SaveData();
                         return; // Exit after removing the course
                     }
             }
@@ -115,16 +114,12 @@
                 if (Logic.InitializeData.ListOfCourses[i].CourseName == courseName)
                 {
                     Logic.InitializeData.ListOfCourses.Remove(InitializeData.ListOfCourses[i]);
+                    InitializeData.SaveData();
                     break;
                 }
             }
 
         }
         courseName = string.Empty; courseID = string.Empty; description = string.Empty; needsLab = string.Empty;
-    }
-
-    private void ClearCourses()
-    {
-        InitializeData.ClearData();
     }
 }

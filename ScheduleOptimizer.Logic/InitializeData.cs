@@ -92,6 +92,20 @@ public static class InitializeData
         }
     }
 
+    public static CourseDays ParseCourseTimes(string courseTime)
+    {
+        switch (courseTime)
+        {
+            case "MWF":
+                return CourseDays.MWF;
+            case "TTh":
+                return CourseDays.TTh;
+            default:
+                throw new Exception("Didn't have the correct room type in file input.");
+        }
+    }
+
+
     private static Room ParseRoom(string s)
     {
         string[] parts = s.Split(',');
@@ -114,8 +128,6 @@ public static class InitializeData
         return professor;
     }
 
-    //sb.AppendLine($"{scheduledCourse.professor.Name},{scheduledCourse.course.CourseName},{scheduledCourse.course.CourseId}," +
-    //            $"{scheduledCourse.course.NeedsLab},{scheduledCourse.room.RoomNumber},{scheduledCourse.room.RoomType.ToString()},{scheduledCourse.date.ToString()}")
     private static ScheduledCourse ParseScheduledCourse(string s)
     {
         string[] parts = s.Split(",");
@@ -139,7 +151,8 @@ public static class InitializeData
             if ((room.RoomNumber == int.Parse(parts[4])) && (room.RoomType == ParseRoomType(parts[5])))
                 schRm = room;
         }
-        return new(schCrs, schCrsPro, schRm, DateTime.Parse(parts[6]));
+
+        return new(schCrs, schCrsPro, schRm, ParseCourseTimes(parts[6]), int.Parse(parts[7]));
     }
 
     private static string RoomsToText(List<Room> roomsList)
@@ -178,7 +191,7 @@ public static class InitializeData
         foreach (var scheduledCourse in listOfScheduledCourses)
         {
             sb.AppendLine($"{scheduledCourse.professor.Name},{scheduledCourse.course.CourseName},{scheduledCourse.course.CourseId}," +
-                $"{scheduledCourse.course.NeedsLab},{scheduledCourse.room.RoomNumber},{scheduledCourse.room.RoomType.ToString().ToLower()},{scheduledCourse.date.ToString()}");
+                $"{scheduledCourse.course.NeedsLab},{scheduledCourse.room.RoomNumber},{scheduledCourse.room.RoomType.ToString().ToLower()},{scheduledCourse.date.ToString()},{scheduledCourse.time.ToString()}");
             //sb.AppendLine("Is this thing working");
         }
         return sb.ToString();
