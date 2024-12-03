@@ -44,6 +44,7 @@
 @code {
     private string courseName;
     private string courseID;
+        private int coursePref = 3;
     private string description;
     private string needsLab;
     private bool lab;
@@ -52,23 +53,16 @@
         //InitializeData.BeginData();
     }
     private void AddCourse(){
-        
-        if (courseID == null || courseID == "" || !int.TryParse(courseID, out int parsedCourseID))
-        {
-            return; 
-        }
+        needsLab = needsLab.ToLower();
 
-        
-        if (courseName == null || courseName == "")
-        {
-            return; 
-        }
+        if (courseID == null || courseID == "" || !int.TryParse(courseID, out int parsedCourseID))
+        { return; }
+
+        if (courseName == null || courseName == "") { return; }
 
         // Default needsLab to "no" if it is null or empty
-        if (needsLab == null || needsLab == "")
-        {
-            needsLab = "no";
-        }
+        if (needsLab == null || needsLab == "") { needsLab = "no";}
+
         if(needsLab == "yes" ||needsLab== "Yes" || needsLab == "YES" || needsLab == "y" || needsLab == "Y"){
             lab = true;
             Logic.Course addingCourse = new Logic.Course(int.Parse(courseID), courseName, lab);
@@ -78,6 +72,11 @@
                 addingCourse.Description = description;
             }
             InitializeData.ListOfCourses.Add(addingCourse);
+            for (int i = 0; i < InitializeData.ListOfProfessors.Count; i++)
+            {
+                InitializeData.ListOfProfessors[i].TotalCourses.Add(addingCourse);
+                InitializeData.ListOfProfessors[i].AddCoursePreference(addingCourse, coursePref);
+            }
 
         }
         else{
@@ -87,6 +86,10 @@
                 addingCourse.Description = description;
             }
             InitializeData.ListOfCourses.Add(addingCourse);
+            for(int i = 0; i<InitializeData.ListOfProfessors.Count; i++){
+                InitializeData.ListOfProfessors[i].TotalCourses.Add(addingCourse);
+                InitializeData.ListOfProfessors[i].AddCoursePreference(addingCourse, coursePref);
+            }
         }
         courseName = string.Empty; courseID = string.Empty; description = string.Empty; needsLab = string.Empty;
     }

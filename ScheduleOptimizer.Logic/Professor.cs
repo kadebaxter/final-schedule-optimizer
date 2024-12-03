@@ -16,7 +16,7 @@ namespace ScheduleOptimizer.Logic
         public string Name { get; set; }
         public List<CourseAndPreference> CoursePreferences { get; private set; } = [];
         public List<Course> AssignedCourses { get; private set; } = [];
-        private List<Course> TotalCourses { get; set; } = [];
+        public List<Course> TotalCourses { get; set; } = [];
 
         public Professor(string name)   
         {
@@ -110,7 +110,5 @@ namespace ScheduleOptimizer.Logic
             }
             return assignedList;
         }
-        
-       
     }
 }
