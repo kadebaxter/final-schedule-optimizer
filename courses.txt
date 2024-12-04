@@ -7,4 +7,4 @@ English 1010,2252,False
 Programming Fundamentals,1576,False
 Programming Fundamentals Lab,1079,True
 User Experience Design,2076,True
-Digital Circuits,1565,False
+ad,12,True

@@ -7,4 +7,4 @@ Garth,English 1010,2252,False,124,normal,MWF,730
 Heber,Programming Fundamentals,1576,False,124,normal,MWF,1230
 Bob,Programming Fundamentals Lab,1079,True,1234567,online,MWF,330
 Craig,User Experience Design,2076,True,1234567,online,TTh,730
-Heber,Digital Circuits,1565,False,123,normal,TTh,1130
+Heber,THIS IS WRONG,1234567,False,123,normal,TTh,1130
