@@ -65,7 +65,8 @@
 
     private void AddProf()
     {
-
+        if (profName == null)
+            return;
         //Add the professor here using the string profName
         if (profName.Length >= minimumNameLength)// protects against empty adding or adding a space bar as a name.
         {
