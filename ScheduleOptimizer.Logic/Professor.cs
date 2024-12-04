@@ -9,20 +9,20 @@ using System.Threading.Tasks;
 
 namespace ScheduleOptimizer.Logic
 {
-    
+
 
     public class Professor
     {
         public string Name { get; set; }
         public List<CourseAndPreference> CoursePreferences { get; private set; } = [];
         public List<Course> AssignedCourses { get; private set; } = [];
-        private List<Course> TotalCourses { get; set; } = [];
+        public List<Course> TotalCourses { get; set; } = [];
 
-        public Professor(string name)   
+        public Professor(string name)
         {
             Name = name;
             // I initialize a list of all courses with a default neutral preference of int 3 each time you create a professor
-            for (int i = 0; i < InitializeData.ListOfCourses.Count; i++) 
+            for (int i = 0; i < InitializeData.ListOfCourses.Count; i++)
             {
                 CourseAndPreference tempItem = new CourseAndPreference(InitializeData.ListOfCourses[i]);
                 CoursePreferences.Add(tempItem);
@@ -46,16 +46,16 @@ namespace ScheduleOptimizer.Logic
 
             else
             {
-                for (int i = 0; i < CoursePreferences.Count; i++) 
+                for (int i = 0; i < CoursePreferences.Count; i++)
                 {
-                    if(preferredCourse == CoursePreferences[i].course)
+                    if (preferredCourse == CoursePreferences[i].course)
                     {
                         CoursePreferences[i].preference = preferredRating;
                     }
                 }
             }
         }
-        public void AddAssignedCourse(Course freshCourse) 
+        public void AddAssignedCourse(Course freshCourse)
         {
             AssignedCourses.Add(freshCourse);
         }
@@ -67,12 +67,12 @@ namespace ScheduleOptimizer.Logic
         {
             CourseAndPreference Answer = null;
             //CourseAndPreference Answer = CoursePreferences[0];
-            for (int i = 0; i < CoursePreferences.Count; i++) 
+            for (int i = 0; i < CoursePreferences.Count; i++)
             {
                 if (CoursePreferences[i].course.CourseName == QuerryCourse.CourseName)
-                { 
+                {
                     Answer = CoursePreferences[i];
-                }  
+                }
             }
             return Answer;
         }
@@ -84,23 +84,26 @@ namespace ScheduleOptimizer.Logic
             List<CourseProfessor> assignedList = new List<CourseProfessor>();
             List<Course> unassignedCourses = new List<Course>();
 
-            for (int i = 0; i< InitializeData.ListOfCourses.Count; i++)// create list of unassigned courses
+            for (int i = 0; i < InitializeData.ListOfCourses.Count; i++)// create list of unassigned courses
             {
                 unassignedCourses.Add(InitializeData.ListOfCourses[i]);
             }
 
-            for(int i = 0; i<InitializeData.ListOfCourses.Count; i++)// assign each course
+            for (int i = 0; i < InitializeData.ListOfCourses.Count; i++)// assign each course
             {
-                int profIndex = i%InitializeData.ListOfProfessors.Count;// now I loop through professors evenly
+                int profIndex = i % InitializeData.ListOfProfessors.Count;// now I loop through professors evenly
                 Course currentCourse = unassignedCourses[0];
                 Professor currentProf = InitializeData.ListOfProfessors[profIndex];
 
                 // find the professor's favorite course
-                for(int j = 0; j<unassignedCourses.Count; j++)
+                for (int j = 0; j < unassignedCourses.Count; j++)
                 {
-                    if(currentProf.GetCourseAndPreference(currentCourse).preference < currentProf.GetCourseAndPreference(unassignedCourses[j]).preference)
+                    if (currentProf.GetCourseAndPreference(currentCourse) != null && currentProf.GetCourseAndPreference(unassignedCourses[j]) != null)
                     {
-                        currentCourse = unassignedCourses[j];
+                        if (currentProf.GetCourseAndPreference(currentCourse).preference < currentProf.GetCourseAndPreference(unassignedCourses[j]).preference)
+                        {
+                            currentCourse = unassignedCourses[j];
+                        }
                     }
                 }
                 // assign professor to the course
@@ -110,7 +113,5 @@ namespace ScheduleOptimizer.Logic
             }
             return assignedList;
         }
-        
-       
     }
 }
