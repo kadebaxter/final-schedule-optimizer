@@ -18,13 +18,13 @@ public static class InitializeData
     public static void BeginData()
     {
         //ListOfProfessors =
+        FillCourseList(PersistData.ReadInCourses());
         FillProfessorList(PersistData.ReadInProfessors());
         //ListOfCourses = 
-        FillCourseList(PersistData.ReadInCourses());
         //ListOfRooms =
         FillRoomList(PersistData.ReadInRooms());
         FillScheduledCourseList(PersistData.ReadInSchedules());
-        BuildProfessorPreference();
+        //BuildProfessorPreference();
     }
 
     public static void ClearData()
@@ -105,6 +105,16 @@ public static class InitializeData
         }
     }
 
+    private static Course FindCourseGivenName(string courseName)
+    {
+        Course prfCrs = null;
+        foreach (var course in ListOfCourses)
+        {
+            if (course.CourseName == courseName)
+                prfCrs = course;
+        }
+        return prfCrs;
+    }
 
     private static Room ParseRoom(string s)
     {
@@ -124,7 +134,18 @@ public static class InitializeData
 
     private static Professor ParseProfessor(string s)
     {
-        Professor professor = new(s);
+        string[] parts = s.Split(",");
+        Professor professor = new(parts[0]);
+
+        Course prfCrs = new(1234567, "THIS IS WRONG");
+        for (int i = 1; i < parts.Length; i++)
+        {
+            string[] courseParts = parts[i].Split(":");
+            prfCrs = FindCourseGivenName(courseParts[0]);
+            int coursePreference = int.Parse(courseParts[1]);
+            professor.AddCoursePreference(prfCrs, coursePreference);
+        }
+
         return professor;
     }
 
@@ -178,9 +199,18 @@ public static class InitializeData
     private static string ProfessorsToText(List<Professor> listOfProfessors)
     {
         StringBuilder sb = new StringBuilder();
+
         foreach (Professor professor in listOfProfessors)
         {
-            sb.AppendLine($"{professor.Name}");
+            sb.Append($"{professor.Name},");
+            for (int i = 0; i < professor.CoursePreferences.Count; i++) 
+            {
+                if (i == professor.CoursePreferences.Count - 1)
+                    sb.Append($"{professor.CoursePreferences[i].course.CourseName}:{professor.CoursePreferences[i].preference}");
+                else
+                    sb.Append($"{professor.CoursePreferences[i].course.CourseName}:{professor.CoursePreferences[i].preference},");
+            }
+            sb.AppendLine();
         }
         return sb.ToString();
     }

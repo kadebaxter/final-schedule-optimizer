@@ -182,6 +182,7 @@
             if (professor != null && course != null)
             {
                 professor.UpdatePreference(course, prefer);
+                InitializeData.SaveData();
                 profName = string.Empty; courseIDPref = string.Empty; preference = string.Empty;
 
             }

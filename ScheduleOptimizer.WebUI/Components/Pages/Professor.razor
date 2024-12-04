@@ -39,6 +39,10 @@
     {
         <tr style="background-color: #fff">
             <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfProfessors[i].Name</td>
+            @foreach (CourseAndPreference stuff in InitializeData.ListOfProfessors[i].CoursePreferences)
+            {
+                <td style="padding: 8px; border: 1px solid #111;">@stuff.preference</td>
+            }
             @* <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfProfessors[0].AssignedCourses[i].CourseName</td> *@
             @* <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfProfessors[0].AssignedCourses[i].Description</td> *@
             @* <td style="padding: 8px; border: 1px solid #111;">@(InitializeData.ListOfProfessors[0].AssignedCourses[i].NeedsLab ? "Yes" : "No")</td> *@
@@ -50,6 +54,10 @@
     {
         <tr style="background-color: #888">
             <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfProfessors[i].Name</td>
+            @foreach (CourseAndPreference stuff in InitializeData.ListOfProfessors[i].CoursePreferences)
+            {
+                <td style="padding: 8px; border: 1px solid #111;">@stuff.preference</td>
+            }
             @* <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfProfessors[0].AssignedCourses[i].CourseName</td> *@
             @* <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfProfessors[0].AssignedCourses[i].Description</td> *@
             @* <td style="padding: 8px; border: 1px solid #111;">@(InitializeData.ListOfProfessors[0].AssignedCourses[i].NeedsLab ? "Yes" : "No")</td> *@
