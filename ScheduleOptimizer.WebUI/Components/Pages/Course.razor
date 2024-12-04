@@ -12,6 +12,13 @@
 
 <button style="background-color: #008000" class="btn btn-primary" @onclick="AddCourse">Add Course</button>
 <button class="btn btn-primary" style="background-color: #FF0000" @onclick="RemoveCourse">Remove Course</button>
+<p>You can add a Professor's preference below!</p>
+<tr>
+    <td><input type="text" @bind="profName" placeholder="Professor Name" /></td>
+    <td><input type="text" @bind="courseIDPref" placeholder="CourseID" /></td>
+    <td><input type="text" @bind="preference" placeholder="number 1-5" /></td>
+</tr>
+<button style="background-color: #008000" class="btn btn-primary" @onclick="UpdatePreference"> Update Preference</button>
 
 <tr style="background-color: #fff">
     <td style="padding: 8px; border: 1px solid #111;">Course ID</td>
@@ -19,6 +26,7 @@
     <td style="padding: 8px; border: 1px solid #111;">Description</td>
     <td style="padding: 8px; border: 1px solid #111;">Needs Lab?</td>
 </tr>
+
 @for (int i = 0; i < InitializeData.ListOfCourses.Count(); i++)
 {
     @if (i % 2 == 1)
@@ -30,7 +38,8 @@
             <td style="padding: 8px; border: 1px solid #111;">@(InitializeData.ListOfCourses[i].NeedsLab ? "Yes" : "No")</td>
         </tr>
     }
-    else {
+    else
+    {
         <tr style="background-color: #888">
             <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfCourses[i].CourseId</td>
             <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfCourses[i].CourseName</td>
@@ -45,22 +54,26 @@
     private string courseID;
     private string description;
     private string needsLab;
+    private string profName;
+    private string courseIDPref;
+    private string preference;
     private bool lab;
     private void PrintCourses()
     {
         //InitializeData.BeginData();
     }
-    private void AddCourse(){
-        
+    private void AddCourse()
+    {
+
         if (courseID == null || courseID == "" || !int.TryParse(courseID, out int parsedCourseID))
         {
-            return; 
+            return;
         }
 
-        
+
         if (courseName == null || courseName == "")
         {
-            return; 
+            return;
         }
 
         // Default needsLab to "no" if it is null or empty
@@ -68,11 +81,12 @@
         {
             needsLab = "no";
         }
-        if(needsLab == "yes" ||needsLab== "Yes" || needsLab == "YES" || needsLab == "y" || needsLab == "Y"){
+        if (needsLab == "yes" || needsLab == "Yes" || needsLab == "YES" || needsLab == "y" || needsLab == "Y")
+        {
             lab = true;
             Logic.Course addingCourse = new Logic.Course(int.Parse(courseID), courseName, lab);
 
-            if(description != "")
+            if (description != "")
             {
                 addingCourse.Description = description;
             }
@@ -80,9 +94,10 @@
             InitializeData.SaveData();
 
         }
-        else{
+        else
+        {
             Logic.Course addingCourse = new Logic.Course(int.Parse(courseID), courseName);
-            if(description != "")
+            if (description != "")
             {
                 addingCourse.Description = description;
             }
@@ -92,8 +107,9 @@
         courseName = string.Empty; courseID = string.Empty; description = string.Empty; needsLab = string.Empty;
     }
 
-    private void RemoveCourse(){
-        if(courseID != "")
+    private void RemoveCourse()
+    {
+        if (courseID != "")
         {
             for (int i = 0; i < Logic.InitializeData.ListOfCourses.Count; i++)
             {
@@ -107,7 +123,7 @@
                     }
             }
         }
-        else if(courseName != "")
+        else if (courseName != "")
         {
             for (int i = 0; i < Logic.InitializeData.ListOfCourses.Count; i++)
             {
@@ -121,5 +137,55 @@
 
         }
         courseName = string.Empty; courseID = string.Empty; description = string.Empty; needsLab = string.Empty;
+    }
+
+    private void UpdatePreference()
+    {
+        //
+        // private string profName;
+        // private string courseIDPref;
+        // private string preference;
+        Logic.Professor professor = null;
+        Logic.Course course = null;
+        int courseid= 0;
+        int prefer=0;
+        bool successParse = true;
+        try
+        {
+            courseid = int.Parse(courseIDPref);
+            prefer = int.Parse(preference);
+        }
+        catch
+        {
+            successParse = false;
+        }
+
+        if (successParse == true)
+        {
+            // find the professor
+            for (int i = 0; i < Logic.InitializeData.ListOfProfessors.Count; i++)
+            {
+                if (Logic.InitializeData.ListOfProfessors[i].Name == profName)
+                {
+                    professor = Logic.InitializeData.ListOfProfessors[i];
+                }
+            }
+
+            // find the course
+            for (int i = 0; i < Logic.InitializeData.ListOfCourses.Count; i++)
+            {
+                if (Logic.InitializeData.ListOfCourses[i].CourseId == courseid)
+                {
+                    course = Logic.InitializeData.ListOfCourses[i];
+                }
+            }
+            if (professor != null && course != null)
+            {
+                professor.UpdatePreference(course, prefer);
+                profName = string.Empty; courseIDPref = string.Empty; preference = string.Empty;
+
+            }
+
+        }
     }
 }
