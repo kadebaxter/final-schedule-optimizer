@@ -113,5 +113,38 @@ namespace ScheduleOptimizer.Logic
             }
             return assignedList;
         }
+
+        // this only takes into account existing courses
+        public void UpdatePreference(Course course, int preference)
+        {
+            Course global = null;
+            bool courseFound = false;
+            for (int i = 0; i < InitializeData.ListOfCourses.Count; i++)
+            {
+                if (InitializeData.ListOfCourses[i].CourseName == course.CourseName)
+                {
+                    global = InitializeData.ListOfCourses[i];
+                }
+            }
+            for(int i = 0; i<CoursePreferences.Count; i++)
+            {
+                if (CoursePreferences[i].course.CourseName == course.CourseName)
+                {
+                    courseFound = true;
+                    CoursePreferences[i].preference = preference;
+                    break;
+                }
+            }
+
+            // if the course doesn't exist in InitializeData.ListOfCourses 
+            // I do not add/update anything
+            if (!courseFound)
+            {
+                if(global != null)
+                {
+                    CoursePreferences.Add(new CourseAndPreference(course, preference));
+                }
+            }
+        }
     }
 }
