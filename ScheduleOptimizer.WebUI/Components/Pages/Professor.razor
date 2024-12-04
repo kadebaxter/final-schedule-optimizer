@@ -24,50 +24,29 @@
 
 <p>Total number of Professors: @Logic.InitializeData.ListOfProfessors.Count</p>
 
-
-<tr style="background-color: #0ff">
-    @* <td style="padding: 8px; border: 1px solid #111;">Professor Name</td>   *@
-    @* <td style="padding: 8px; border: 1px solid #111;">Course Name</td> *@
-    @* <td style="padding: 8px; border: 1px solid #111;">Description</td> *@
-    @* <td style="padding: 8px; border: 1px solid #111;">Needs Lab?</td> *@
-    @* <td style="padding: 8px; border: 1px solid #111;">Preference (Out of 5)</td> *@
-
-</tr>
-@for (int i = 0; i < InitializeData.ListOfProfessors.Count(); i++)
-{
-    @if (i % 2 == 1)
-    {
-        <tr style="background-color: #fff">
-            <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfProfessors[i].Name</td>
-            @foreach (CourseAndPreference stuff in InitializeData.ListOfProfessors[i].CoursePreferences)
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Professor Name</th>
+            @foreach (var course in InitializeData.ListOfCourses)
             {
-                <td style="padding: 8px; border: 1px solid #111;">@stuff.preference</td>
+                <th>@course.CourseName</th>
             }
-            @* <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfProfessors[0].AssignedCourses[i].CourseName</td> *@
-            @* <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfProfessors[0].AssignedCourses[i].Description</td> *@
-            @* <td style="padding: 8px; border: 1px solid #111;">@(InitializeData.ListOfProfessors[0].AssignedCourses[i].NeedsLab ? "Yes" : "No")</td> *@
-            @* <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfProfessors[0].GetCourseAndPreference(InitializeData.ListOfProfessors[0].AssignedCourses[i]).preference</td> *@
-
         </tr>
-    }
-    else
-    {
-        <tr style="background-color: #888">
-            <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfProfessors[i].Name</td>
-            @foreach (CourseAndPreference stuff in InitializeData.ListOfProfessors[i].CoursePreferences)
-            {
-                <td style="padding: 8px; border: 1px solid #111;">@stuff.preference</td>
-            }
-            @* <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfProfessors[0].AssignedCourses[i].CourseName</td> *@
-            @* <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfProfessors[0].AssignedCourses[i].Description</td> *@
-            @* <td style="padding: 8px; border: 1px solid #111;">@(InitializeData.ListOfProfessors[0].AssignedCourses[i].NeedsLab ? "Yes" : "No")</td> *@
-            @* <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfProfessors[0].GetCourseAndPreference(InitializeData.ListOfProfessors[0].AssignedCourses[i]).preference</td> *@
-
-        </tr>
-    }
-    @* <p>You are trying to add this professor name: @($"{profName}")</p> *@
-
-}
+    </thead>
+    <tbody>
+        @for (int i = 0; i < InitializeData.ListOfProfessors.Count(); i++)
+        {
+            <tr>
+                <td>@InitializeData.ListOfProfessors[i].Name</td>
+                @foreach (CourseAndPreference stuff in InitializeData.ListOfProfessors[i].CoursePreferences)
+                {
+                    <td>@stuff.preference</td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
 
 
 @code {
@@ -84,10 +63,11 @@
     }
 
 
-    private void AddProf() {
+    private void AddProf()
+    {
 
         //Add the professor here using the string profName
-        if(profName.Length >= minimumNameLength)// protects against empty adding or adding a space bar as a name.
+        if (profName.Length >= minimumNameLength)// protects against empty adding or adding a space bar as a name.
         {
             Logic.Professor prof = new Logic.Professor(profName);
             profName = string.Empty;
@@ -99,10 +79,13 @@
         feedback = ($"You added {Logic.InitializeData.ListOfProfessors[Logic.InitializeData.ListOfProfessors.Count - 1].Name} to the list of professors!");
 
     }
-    private void RemoveProfessor(){
+    private void RemoveProfessor()
+    {
 
-        for(int i = 0; i<Logic.InitializeData.ListOfProfessors.Count; i++){
-            if(Logic.InitializeData.ListOfProfessors[i].Name == profName){
+        for (int i = 0; i < Logic.InitializeData.ListOfProfessors.Count; i++)
+        {
+            if (Logic.InitializeData.ListOfProfessors[i].Name == profName)
+            {
                 Logic.InitializeData.ListOfProfessors.Remove(Logic.InitializeData.ListOfProfessors[i]);
                 InitializeData.SaveData();
                 profName = string.Empty;
