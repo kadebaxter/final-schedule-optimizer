@@ -17,37 +17,31 @@
     <td><input type="text" @bind="profName" placeholder="Professor Name" /></td>
     <td><input type="text" @bind="courseIDPref" placeholder="CourseID" /></td>
     <td><input type="text" @bind="preference" placeholder="number 1-5" /></td>
-</tr>
-<button style="background-color: #008000" class="btn btn-primary" @onclick="UpdatePreference"> Update Preference</button>
-
-<tr style="background-color: #fff">
-    <td style="padding: 8px; border: 1px solid #111;">Course ID</td>
-    <td style="padding: 8px; border: 1px solid #111;">Course Name</td>
-    <td style="padding: 8px; border: 1px solid #111;">Description</td>
-    <td style="padding: 8px; border: 1px solid #111;">Needs Lab?</td>
+    <button style="background-color: #008000" class="btn btn-primary" @onclick="UpdatePreference"> Update Preference</button>
 </tr>
 
-@for (int i = 0; i < InitializeData.ListOfCourses.Count(); i++)
-{
-    @if (i % 2 == 1)
-    {
-        <tr style="background-color: #fff">
-            <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfCourses[i].CourseId</td>
-            <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfCourses[i].CourseName</td>
-            <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfCourses[i].Description</td>
-            <td style="padding: 8px; border: 1px solid #111;">@(InitializeData.ListOfCourses[i].NeedsLab ? "Yes" : "No")</td>
+<p></p>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Course ID</th>
+            <th>Course Name</th>
+            <th>Description</th>
+            <th>Needs Lab?</th>
         </tr>
-    }
-    else
-    {
-        <tr style="background-color: #888">
-            <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfCourses[i].CourseId</td>
-            <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfCourses[i].CourseName</td>
-            <td style="padding: 8px; border: 1px solid #111;">@InitializeData.ListOfCourses[i].Description</td>
-            <td style="padding: 8px; border: 1px solid #111;">@(InitializeData.ListOfCourses[i].NeedsLab ? "Yes" : "No")</td>
-        </tr>
-    }
-}
+    </thead>
+    <tbody>
+        @for (int i = 0; i < InitializeData.ListOfCourses.Count(); i++)
+        {
+            <tr>
+                <td>@InitializeData.ListOfCourses[i].CourseId</td>
+                <td>@InitializeData.ListOfCourses[i].CourseName</td>
+                <td>@InitializeData.ListOfCourses[i].Description</td>
+                <td>@(InitializeData.ListOfCourses[i].NeedsLab ? "Yes" : "No")</td>
+            </tr>
+        }
+    </tbody>
+</table>
 
 @code {
     private string courseName;
@@ -147,8 +141,8 @@
         // private string preference;
         Logic.Professor professor = null;
         Logic.Course course = null;
-        int courseid= 0;
-        int prefer=0;
+        int courseid = 0;
+        int prefer = 0;
         bool successParse = true;
         try
         {
