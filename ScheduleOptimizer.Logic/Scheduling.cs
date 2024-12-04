@@ -64,23 +64,64 @@ namespace ScheduleOptimizer.Logic
         {
             Dictionary<(AvailableTimes, Course), ScheduledCourse> scheduledCourseList = new();
             _availableTimes = SetTimes();
+            var tthTimes = _availableTimes
+                .Where(at => at.day == CourseDays.TTh)
+                .OrderBy(at => at.time)
+                .ToList();
             Random random = new Random();
             List<int> randomNumbersList = new();
             for (int i = 0; i < courseRooms.Count(); i++)
             {
-                int newRandomNumber = random.Next(0, _availableTimes.Count() - 1);
-                for (int j = 0; j < randomNumbersList.Count(); j++)
+                bool validSelection = false;
+                int newRandomNumber;
+                //if (_availableTimes[newRandomNumber].day != CourseDays.TTh && courseRooms[i].Course.NeedsLab)
+                //{
+                //    scheduledCourseList.Add((_availableTimes[newRandomNumber], courseRooms[i].Course),
+                //        new(courseRooms[i].Course,
+                //        ReturnProfessorGivenName(courseRooms[i].Course.CourseName, professorCourses),
+                //        courseRooms[i].Rooms[random.Next(0, courseRooms[i].Rooms.Count() - 1)], _availableTimes[newRandomNumber].day, _availableTimes[newRandomNumber].time));
+                //}
+                //else
+                //{
+                //    scheduledCourseList.Add((_availableTimes[newRandomNumber], courseRooms[i].Course),
+                //        new(courseRooms[i].Course,
+                //        ReturnProfessorGivenName(courseRooms[i].Course.CourseName, professorCourses),
+                //        courseRooms[i].Rooms[random.Next(0, courseRooms[i].Rooms.Count() - 1)], _availableTimes[newRandomNumber].day, _availableTimes[newRandomNumber].time));
+                //}
+                //randomNumbersList.Add(newRandomNumber);
+                while (!validSelection)
                 {
-                    while (randomNumbersList[j] == newRandomNumber)
+                    // Generate a new random number
+                    newRandomNumber = random.Next(0, _availableTimes.Count());
+
+                    // Check if the random number is already used
+                    if (randomNumbersList.Contains(newRandomNumber))
                     {
-                        newRandomNumber = random.Next(0, _availableTimes.Count() - 1);
+                        continue; // Skip to generate a new random number
                     }
+
+                    // Check the conditions for the available time
+                    if (_availableTimes[newRandomNumber].day != CourseDays.TTh && courseRooms[i].Course.NeedsLab)
+                    {
+                        continue; // Skip to generate a new random number
+                    }
+
+                    // If all conditions are satisfied, mark the selection as valid
+                    validSelection = true;
+
+                    // Add the scheduled course to the dictionary
+                    scheduledCourseList.Add((_availableTimes[newRandomNumber], courseRooms[i].Course),
+                        new ScheduledCourse(
+                            courseRooms[i].Course,
+                            ReturnProfessorGivenName(courseRooms[i].Course.CourseName, professorCourses),
+                            courseRooms[i].Rooms[random.Next(0, courseRooms[i].Rooms.Count)],
+                            _availableTimes[newRandomNumber].day,
+                            _availableTimes[newRandomNumber].time
+                        ));
+
+                    // Add the number to the used list
+                    randomNumbersList.Add(newRandomNumber);
                 }
-                randomNumbersList.Add(newRandomNumber);
-                scheduledCourseList.Add((_availableTimes[newRandomNumber], courseRooms[i].Course),
-                    new(courseRooms[i].Course,
-                    ReturnProfessorGivenName(courseRooms[i].Course.CourseName, professorCourses),
-                    courseRooms[i].Rooms[random.Next(0, courseRooms[i].Rooms.Count() - 1)], _availableTimes[newRandomNumber].day, _availableTimes[newRandomNumber].time));
             }
             return scheduledCourseList;
         }
