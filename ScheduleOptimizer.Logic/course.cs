@@ -15,9 +15,10 @@ public class Course
     public bool NeedsLab { get; set; }
     private Random random = new();
 
-    public Course(int courseId, string courseName)
+    public Course(int courseNumber, string courseName)
     {
-        CourseId = courseId;
+        CourseNumber = courseNumber;
+        CourseId = random.Next(0, 5000);
         CourseName = courseName;
         Description = "N/A";
     }

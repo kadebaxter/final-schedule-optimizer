@@ -17,11 +17,8 @@ public static class InitializeData
 
     public static void BeginData()
     {
-        //ListOfProfessors =
         FillCourseList(PersistData.ReadInCourses());
         FillProfessorList(PersistData.ReadInProfessors());
-        //ListOfCourses = 
-        //ListOfRooms =
         FillRoomList(PersistData.ReadInRooms());
         FillScheduledCourseList(PersistData.ReadInSchedules());
         //BuildProfessorPreference();
@@ -228,7 +225,7 @@ public static class InitializeData
         return sb.ToString();
     }
 
-
+    //This part was added at the beginning to fabricate data
     private static void AddProfessors()
     {
         foreach (string name in PersistData.BuildProfessorList())
