@@ -62,7 +62,7 @@ namespace ScheduleOptimizer.Logic
 
         // Takes in a course and returns that course with the Professor's preference of it.
         // IMPORTANT: FINDS COURSE BASED ON NAME.
-        // also this method could return a null value if what you're looking for isn't found in the list :)
+        // this method could return a null value if what you're looking for isn't found in the list :)
         public CourseAndPreference GetCourseAndPreference(Course QuerryCourse)
         {
             CourseAndPreference Answer = null;
