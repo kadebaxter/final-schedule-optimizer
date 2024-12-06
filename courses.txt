@@ -1,10 +1,8 @@
-IntroSE,1574,False
-Computer Organization and Architecture,3374,False
-Statistics for Scientists and Engineers,3375,False
-Discrete Math,2555,False
-Biology 1610,2303,False
-English 1010,2252,False
-Programming Fundamentals,1576,False
-Programming Fundamentals Lab,1079,True
-User Experience Design,2076,True
-Digital Circuits,1565,False
+Computer Organization and Architecture,3374,2810,False
+Statistics for Scientists and Engineers,3375,3040,False
+Discrete Math,2555,3310,False
+General Biology,2303,1610,False
+English Research,2252,2010,False
+Programming Fundamentals,1576,1400,False
+Programming Fundamentals Lab,1079,1405,True
+User Experience Design,2076,1430,True

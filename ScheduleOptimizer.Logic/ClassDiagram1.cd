@@ -3,7 +3,7 @@
   <Class Name="ScheduleOptimizer.Logic.Course" Collapsed="true">
     <Position X="0.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AACEAAAAAAAgAAAAAAAAAAAAAAAAAAIAAAAAAAAAACA=</HashCode>
+      <HashCode>AACEAAAAAAAgAAAAEAAAAAAAAAAAAAAAIAQAAAAAACA=</HashCode>
       <FileName>course.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -24,8 +24,8 @@
       <FileName>CourseProfessor.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="course" />
       <Property Name="professor" />
+      <Property Name="course" />
     </ShowAsAssociation>
   </Class>
   <Class Name="CourseRoom" Collapsed="true">
@@ -41,7 +41,7 @@
   <Class Name="ScheduleOptimizer.Logic.InitializeData" Collapsed="true">
     <Position X="7" Y="4.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAgAAAQAQBIAAICAAAAAAAAAAAAAAIAAAAAAAQA=</HashCode>
+      <HashCode>AIACAIgAIQQAQFIAAIKAAAEQAkAAAAAAAYBACAASAQA=</HashCode>
       <FileName>InitializeData.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -55,14 +55,14 @@
   <Class Name="ScheduleOptimizer.Logic.Room" Collapsed="true">
     <Position X="2.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAQAAAAAAAAAAAAIAAABAAAAAAAAAAAAIAAAgA=</HashCode>
+      <HashCode>AAACAAAQAAAAAAAAAAAAIAAABAAAAAAAAAAAAIAAAgA=</HashCode>
       <FileName>Room.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ScheduleOptimizer.Logic.ScheduledCourse" Collapsed="true">
     <Position X="5.75" Y="2" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAQAAAAgAAAAAAAAQAAAAA=</HashCode>
+      <HashCode>AAABAAAAAAAAgAAAAAAAAAAQAAAAgAAAAAAAAQAAAAA=</HashCode>
       <FileName>ScheduledCourse.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -85,7 +85,7 @@
   <Class Name="ScheduleOptimizer.Logic.AvailableTimes" Collapsed="true">
     <Position X="2.25" Y="4" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAA=</HashCode>
+      <HashCode>AAAhAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>AvailableTimes.cs</FileName>
     </TypeIdentifier>
   </Class>

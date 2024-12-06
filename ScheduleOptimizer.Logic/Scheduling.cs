@@ -68,19 +68,35 @@ namespace ScheduleOptimizer.Logic
             List<int> randomNumbersList = new();
             for (int i = 0; i < courseRooms.Count(); i++)
             {
-                int newRandomNumber = random.Next(0, _availableTimes.Count() - 1);
-                for (int j = 0; j < randomNumbersList.Count(); j++)
+                bool validSelection = false;
+                int newRandomNumber;
+
+                while (!validSelection)
                 {
-                    while (randomNumbersList[j] == newRandomNumber)
+                    newRandomNumber = random.Next(0, _availableTimes.Count());
+                    if (randomNumbersList.Contains(newRandomNumber))
                     {
-                        newRandomNumber = random.Next(0, _availableTimes.Count() - 1);
+                        continue;
                     }
+
+                    if (_availableTimes[newRandomNumber].day != CourseDays.TTh && courseRooms[i].Course.NeedsLab)
+                    {
+                        continue;
+                    }
+
+                    validSelection = true;
+
+                    scheduledCourseList.Add((_availableTimes[newRandomNumber], courseRooms[i].Course),
+                        new ScheduledCourse(
+                            courseRooms[i].Course,
+                            ReturnProfessorGivenName(courseRooms[i].Course.CourseName, professorCourses),
+                            courseRooms[i].Rooms[random.Next(0, courseRooms[i].Rooms.Count)],
+                            _availableTimes[newRandomNumber].day,
+                            _availableTimes[newRandomNumber].time
+                        ));
+
+                    randomNumbersList.Add(newRandomNumber);
                 }
-                randomNumbersList.Add(newRandomNumber);
-                scheduledCourseList.Add((_availableTimes[newRandomNumber], courseRooms[i].Course),
-                    new(courseRooms[i].Course,
-                    ReturnProfessorGivenName(courseRooms[i].Course.CourseName, professorCourses),
-                    courseRooms[i].Rooms[random.Next(0, courseRooms[i].Rooms.Count() - 1)], _availableTimes[newRandomNumber].day, _availableTimes[newRandomNumber].time));
             }
             return scheduledCourseList;
         }
