@@ -33,6 +33,10 @@ namespace ScheduleOptimizer.Logic
         public void AddCoursePreference(Course preferredCourse, int preferredRating)
         {
             // If someone adds a course that isn't in our list of data, it updates 3 lists. InitialiseData, CoursePreferences, and TotalCourses
+            if (preferredCourse == null) 
+            {
+                return;
+            }
             if (!TotalCourses.Contains(preferredCourse))
             {
                 CourseAndPreference tempAdd = new CourseAndPreference(preferredCourse, preferredRating);

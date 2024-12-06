@@ -8,14 +8,17 @@ using System.Threading.Tasks;
 namespace ScheduleOptimizer.Logic;
 public class Course
 {
+    public int CourseNumber { get; set; }
     public int CourseId { get; set; }
     public string CourseName { get; set; }
     public string Description { get; set; }
     public bool NeedsLab { get; set; }
+    private Random random = new();
 
-    public Course(int courseId, string courseName)
+    public Course(int courseNumber, string courseName)
     {
-        CourseId = courseId;
+        CourseNumber = courseNumber;
+        CourseId = random.Next(0, 5000);
         CourseName = courseName;
         Description = "N/A";
     }
@@ -26,20 +29,24 @@ public class Course
         Description = description;
     }
 
-    public Course(int courseId, string courseName, bool needsLab)
+    public Course(int courseNumber, string courseName, bool needsLab)
     {
+        CourseNumber = courseNumber;
+        CourseId = random.Next(0, 5000);
+        CourseName = courseName;
+        Description = "N/A";
+        NeedsLab = needsLab;
+    }
+
+    public Course(int courseNumber, int courseId, string courseName, bool needsLab)
+    {
+        CourseNumber = courseNumber;
         CourseId = courseId;
         CourseName = courseName;
         Description = "N/A";
         NeedsLab = needsLab;
     }
 
-    public void DisplayCourseInfo()
-    {
-        Console.WriteLine($"Course ID: {CourseId}");
-        Console.WriteLine($"Course Name: {CourseName}");
-        Console.WriteLine($"Description: {Description}");
-    }
     public List<CourseRoom> CoursesWithRooms()
     {
         List<CourseRoom> courseRoomsList = new();

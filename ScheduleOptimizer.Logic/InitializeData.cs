@@ -17,11 +17,8 @@ public static class InitializeData
 
     public static void BeginData()
     {
-        //ListOfProfessors =
         FillCourseList(PersistData.ReadInCourses());
         FillProfessorList(PersistData.ReadInProfessors());
-        //ListOfCourses = 
-        //ListOfRooms =
         FillRoomList(PersistData.ReadInRooms());
         FillScheduledCourseList(PersistData.ReadInSchedules());
         //BuildProfessorPreference();
@@ -128,8 +125,9 @@ public static class InitializeData
         string[] parts = s.Split(',');
         string courseName = parts[0];
         int courseID = int.Parse(parts[1]);
-        bool needLab = bool.Parse(parts[2].ToLower());
-        return new(courseID,  courseName, needLab);
+        int courseNumber = int.Parse(parts[2]);
+        bool needLab = bool.Parse(parts[3].ToLower());
+        return new(courseNumber, courseID, courseName, needLab);
     }
 
     private static Professor ParseProfessor(string s)
@@ -191,7 +189,7 @@ public static class InitializeData
         StringBuilder sb = new StringBuilder();
         foreach (Course course in listOfCourses)
         {
-            sb.AppendLine($"{course.CourseName},{course.CourseId},{course.NeedsLab}");
+            sb.AppendLine($"{course.CourseName},{course.CourseId},{course.CourseNumber},{course.NeedsLab}");
         }
         return sb.ToString();
     }
@@ -227,7 +225,7 @@ public static class InitializeData
         return sb.ToString();
     }
 
-
+    //This part was added at the beginning to fabricate data
     private static void AddProfessors()
     {
         foreach (string name in PersistData.BuildProfessorList())
